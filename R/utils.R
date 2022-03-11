@@ -7,7 +7,7 @@ draw_seven <- function(decklist){
 #' @export
 get_hand <- function(decklist, cards){
   decklist %>%
-    dplyr::filter(carta %in% cards)
+    dplyr::filter(card_name %in% cards)
 }
 
 #' @export
