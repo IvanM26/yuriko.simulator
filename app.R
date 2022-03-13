@@ -75,7 +75,8 @@ server <- function(input, output, session) {
       card5 = hand()$card_name[[5]],
       card6 = hand()$card_name[[6]],
       card7 = hand()$card_name[[7]],
-      keep = "TRUE"
+      keep = "TRUE",
+      id = max(tests()$id + 1)
     )
     
     tests <- bind_rows(tests(), new_row)
@@ -93,7 +94,8 @@ server <- function(input, output, session) {
       card5 = hand()$card_name[[5]],
       card6 = hand()$card_name[[6]],
       card7 = hand()$card_name[[7]],
-      keep = "FALSE"
+      keep = "FALSE",
+      id = max(tests()$id + 1)
     )
     
     tests <- bind_rows(tests(), new_row)
