@@ -38,29 +38,8 @@ is_yuriko_on_T2 <- function(opening_hand){
           if (hand_produces_ub_with_constraint(hand_metrics, "U ON T1")) return(TRUE)
         }
         
-        if (hand_metrics$lotus_petal){
-          if (hand_produces_ub(hand_metrics)) return(TRUE)
-        }
+        if (hand_produces_ub_and_two_mana_T1(hand_metrics, "U ON T1")) return(TRUE)
         
-        if (hand_metrics$chrome_mox){
-          if (hand_metrics$n_cards_u >= 2){
-            if (hand_produces_ub(hand_metrics)) return(TRUE)
-          }
-          
-          if (hand_metrics$n_cards_b >= 1){
-            if (hand_produces_ub_with_constraint(hand_metrics, "U ON T1")) return(TRUE)
-          }
-          
-        }
-        
-        if (hand_metrics$mox_diamond){
-          if (hand_metrics$n_lands >= 2){
-            if (hand_metrics$n_color_lands >= 1) return(TRUE)
-          }
-          if (hand_metrics$n_lands == 1){
-            if (hand_metrics$n_mdfc_lands >= 1) return(TRUE)
-          }
-        }
       }
       
       # > 1B ####
@@ -69,29 +48,7 @@ is_yuriko_on_T2 <- function(opening_hand){
           if (hand_produces_ub_with_constraint(hand_metrics, "B ON T1")) return(TRUE)
         }
         
-        if (hand_metrics$lotus_petal){
-          if (hand_produces_ub(hand_metrics)) return(TRUE)
-        }
-        
-        if (hand_metrics$chrome_mox){
-          if (hand_metrics$n_cards_b >= 2){
-            if (hand_produces_ub(hand_metrics)) return(TRUE)
-          }
-          
-          if (hand_metrics$n_cards_u >= 1){
-            if (hand_produces_ub_with_constraint(hand_metrics, "B ON T1")) return(TRUE)
-          }
-          
-        }
-        
-        if (hand_metrics$mox_diamond){
-          if (hand_metrics$n_lands >= 2){
-            if (hand_metrics$n_color_lands >= 1) return(TRUE)
-          }
-          if (hand_metrics$n_lands == 1){
-            if (hand_metrics$n_mdfc_lands >= 1) return(TRUE)
-          }
-        }
+        if (hand_produces_ub_and_two_mana_T1(hand_metrics, "B ON T1")) return(TRUE)
         
         if (hand_metrics$dark_ritual){
           if (hand_produces_ub_with_constraint(hand_metrics, "B ON T1")) return(TRUE)

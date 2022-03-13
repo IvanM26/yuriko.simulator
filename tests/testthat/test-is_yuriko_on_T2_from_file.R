@@ -11,11 +11,11 @@ for (i in 1:nrow(tests)){
                                tests$card4[[i]],tests$card5[[i]],tests$card6[[i]],
                                tests$card7[[i]]))
   if (tests$keep[[i]]){
-    test_that("should keep hand", {
+    test_that(paste(tests$id[[i]], "should keep hand"), {
       expect_true(is_yuriko_on_T2(hand))
     }) 
   } else {
-    test_that("should mulligan", {
+    test_that(paste(tests$id[[i]],"should mulligan"), {
       expect_false(is_yuriko_on_T2(hand))
     }) 
   }
