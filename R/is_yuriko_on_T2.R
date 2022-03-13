@@ -28,6 +28,7 @@ is_yuriko_on_T2 <- function(opening_hand){
       }
       
     }
+    
     # ENABLER 2 ####
     if (hand_metrics$n_enablers_2 >= 1){
       
@@ -91,11 +92,35 @@ is_yuriko_on_T2 <- function(opening_hand){
             if (hand_metrics$n_mdfc_lands >= 1) return(TRUE)
           }
         }
+        
+        if (hand_metrics$dark_ritual){
+          if (hand_produces_ub_with_constraint(hand_metrics, "B ON T1")) return(TRUE)
+        }
       }
       
       
     }
-    
+    # ENABLER 3 ####
+    if (hand_metrics$n_enablers_3 >= 1){
+      
+      # > 2U ####
+      if (hand_metrics$n_enablers_2u >= 1){
+        if (hand_metrics$mana_crypt){
+          if (hand_produces_ub_with_constraint(hand_metrics, "U ON T1")) return(TRUE)
+        }
+      }
+      
+      # > 2B ####
+      if (hand_metrics$n_enablers_2b >= 1){
+        if (hand_metrics$mana_crypt){
+          if (hand_produces_ub_with_constraint(hand_metrics, "B ON T1")) return(TRUE)
+        }
+        
+        if (hand_metrics$dark_ritual){
+          if (hand_produces_ub_with_constraint(hand_metrics, "B ON T1")) return(TRUE)
+        }
+      }
+    }
   }
   
   
