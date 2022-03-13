@@ -1,3 +1,4 @@
+#' @export
 is_yuriko_on_T2 <- function(opening_hand){
 
   hand_metrics <- summarise_hand(opening_hand)
@@ -79,8 +80,6 @@ is_yuriko_on_T2 <- function(opening_hand){
       }
     }
   }
-  
-  
   
   return(FALSE)
   }
