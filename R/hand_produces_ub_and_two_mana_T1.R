@@ -41,6 +41,7 @@ hand_produces_ub_and_two_mana_T1 <- function(hand_metrics, constraint){
   if (hand_metrics$mox_diamond){
     if (hand_metrics$n_lands >= 2){
       if (hand_metrics$n_color_lands >= 1) return(TRUE)
+      if (hand_metrics$n_mdfc_lands >= 1) return(TRUE)
     }
     if (hand_metrics$n_lands == 1){
       if (hand_metrics$n_mdfc_lands >= 1) return(TRUE)

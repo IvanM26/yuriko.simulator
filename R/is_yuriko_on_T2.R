@@ -56,6 +56,14 @@ is_yuriko_on_T2 <- function(opening_hand){
         }
       }
       
+      # > UB ####
+      if (hand_metrics$n_enablers_ub >= 1){
+        if (
+          hand_produces_ub_and_two_mana_T1(hand_metrics, "B ON T1") |
+          hand_produces_ub_and_two_mana_T1(hand_metrics, "U ON T1")
+          ) return(TRUE)
+      }
+      
       
     }
     # ENABLER 3 ####
@@ -66,6 +74,10 @@ is_yuriko_on_T2 <- function(opening_hand){
         if (hand_metrics$mana_crypt){
           if (hand_produces_ub_with_constraint(hand_metrics, "U ON T1")) return(TRUE)
         }
+        
+        if(hand_produces_ub_and_three_mana_T1(hand_metrics, "U ON T1")) return(TRUE)
+        
+        
       }
       
       # > 2B ####
@@ -77,8 +89,22 @@ is_yuriko_on_T2 <- function(opening_hand){
         if (hand_metrics$dark_ritual){
           if (hand_produces_ub_with_constraint(hand_metrics, "B ON T1")) return(TRUE)
         }
+        
+        if(hand_produces_ub_and_three_mana_T1(hand_metrics, "B ON T1")) return(TRUE)
+        
       }
     }
+  }
+  
+  # YURIKO T1 ####
+  if (hand_produces_ub_and_three_mana_T1(hand_metrics, "B ON T1") |
+      hand_produces_ub_and_three_mana_T1(hand_metrics, "U ON T1")) return(TRUE)
+  
+  if (hand_metrics$mana_crypt){
+    if (
+      hand_produces_ub_and_two_mana_T1(hand_metrics, "B ON T1") |
+      hand_produces_ub_and_two_mana_T1(hand_metrics, "U ON T1")
+    ) return(TRUE)
   }
   
   return(FALSE)
