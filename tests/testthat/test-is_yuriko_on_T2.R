@@ -833,5 +833,78 @@ hand <- get_hand(decklist, c("Moon-Circuit Hacker","Chrome Mox", "Force of Will"
 test_that("enabler 2 1u + chrome mox on", 
           {expect_true(is_yuriko_on_T2(hand))})
 
+# > BB ENABLER ####
+hand <- get_hand(decklist, c("Dauthi Voidwalker", "Chrome Mox", "Snuff Out", "Island1", "Swamp1"))
+test_that("enabler 2 bb + chrome mox on + ub on t2", 
+          {expect_true(is_yuriko_on_T2(hand))})
 
+hand <- get_hand(decklist, c("Dauthi Voidwalker", "Chrome Mox", "Force of Will", "Island1", "Swamp1"))
+test_that("enabler 2 bb + chrome mox on + ub on t2 but no bb t1", 
+          {expect_false(is_yuriko_on_T2(hand))})
 
+hand <- get_hand(decklist, c("Dauthi Voidwalker", "Lotus Petal", "Swamp1", "Swamp2"))
+test_that("enabler 2 bb + lotus petal but no ub t2", 
+          {expect_false(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Dauthi Voidwalker", "Lotus Petal", "Island1", "Swamp1"))
+test_that("enabler 2 bb + lotus petal + ub on t2", 
+          {expect_true(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Dauthi Voidwalker", "Mox Diamond", "Island1", "Swamp1"))
+test_that("enabler 2 bb + mox diamond + 2 lands", 
+          {expect_true(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Dauthi Voidwalker", "Mox Diamond", "Swamp1"))
+test_that("enabler 2 bb + mox diamond but 1 land", 
+          {expect_false(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Dauthi Voidwalker", "Mox Diamond", "Swamp1", "Boggart Trawler"))
+test_that("enabler 2 bb + mox diamond + 1 lands + b mdfc", 
+          {expect_true(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Dauthi Voidwalker", "Mox Diamond", "Swamp1", "Sink into Stupor"))
+test_that("enabler 2 bb + mox diamond + 1 land + mdfc but u mdfc", 
+          {expect_false(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Dauthi Voidwalker", "Mox Diamond", "Island1", "Sink into Stupor"))
+test_that("enabler 2 bb + mox diamond + 1 land + mdfc but u mdfc", 
+          {expect_false(is_yuriko_on_T2(hand))})
+
+#TODO: Add tests with BB Enabler and Dark Ritual
+
+# > UU ENABLER ####
+hand <- get_hand(decklist, c("Thassa's Oracle", "Chrome Mox", "Force of Will", "Island1", "Swamp1"))
+test_that("enabler 2 uu + chrome mox on u t1 + ub on t2", 
+          {expect_true(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Thassa's Oracle", "Chrome Mox", "Snuff Out", "Island1", "Swamp1"))
+test_that("enabler 2 uu + chrome mox on + ub on t2 but no uu t1", 
+          {expect_false(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Thassa's Oracle", "Lotus Petal", "Island1", "Island2"))
+test_that("enabler 2 uu + lotus petal but no ub t2", 
+          {expect_false(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Thassa's Oracle", "Lotus Petal", "Island1", "Swamp1"))
+test_that("enabler 2 uu + lotus petal + ub on t2", 
+          {expect_true(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Thassa's Oracle", "Mox Diamond", "Island1", "Swamp1"))
+test_that("enabler 2 uu + mox diamond + 2 lands", 
+          {expect_true(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Thassa's Oracle", "Mox Diamond", "Swamp1"))
+test_that("enabler 2 uu + mox diamond but 1 land", 
+          {expect_false(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Thassa's Oracle", "Mox Diamond", "Swamp1", "Sink into Stupor"))
+test_that("enabler 2 uu + mox diamond + 1 lands + u mdfc", 
+          {expect_true(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Thassa's Oracle", "Mox Diamond", "Swamp1", "Boggart Trawler"))
+test_that("enabler 2 uu + mox diamond + 1 land + mdfc but b mdfc", 
+          {expect_false(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(decklist, c("Thassa's Oracle", "Mox Diamond", "Island1", "Boggart Trawler"))
+test_that("enabler 2 uu + mox diamond + 1 land + mdfc but b mdfc", 
+          {expect_false(is_yuriko_on_T2(hand))})
