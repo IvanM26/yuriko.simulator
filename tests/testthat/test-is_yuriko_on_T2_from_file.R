@@ -1,8 +1,7 @@
 filepath_decklist <- system.file("extdata", "decklist.xlsx", package = "yuriko.simulator")
 filepath_tests <- system.file("extdata", "test_keep.xlsx", package = "yuriko.simulator")
 
-decklist <- readxl::read_xlsx(filepath_decklist) %>%
-  dplyr::filter(in_deck == 1)
+decklist <- readxl::read_xlsx(filepath_decklist)
 
 tests <- readxl::read_xlsx(filepath_tests)
 

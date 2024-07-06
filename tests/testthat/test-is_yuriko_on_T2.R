@@ -1,7 +1,6 @@
 filepath <- system.file("extdata", "decklist.xlsx", package = "yuriko.simulator")
 
-decklist <- readxl::read_xlsx(filepath) %>%
-  dplyr::filter(in_deck == 1)
+decklist <- readxl::read_xlsx(filepath)
 
 # ENABLER MV 0 ####
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
