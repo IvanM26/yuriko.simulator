@@ -53,14 +53,27 @@ add_scryfall_data <- function(card_data) {
         httr::content(as = "text") |> 
         jsonlite::fromJSON(flatten = TRUE)
 
-      if (card_data$layout %in% c("split", "flip", "transform", "adventure", "normal")) {
+      if (card_data$layout %in% c("split", "flip", "adventure", "normal")) {
         out <- tibble::tibble(
           layout = card_data$layout,
           name = card_data$name,
           cmc = card_data$cmc,
           mana_cost = card_data$mana_cost,
           type = card_data$type_line,
-          produced_mana = paste0(card_data$produced_mana, collapse = "")
+          produced_mana = paste0(card_data$produced_mana, collapse = ""),
+          img_src = card_data$image_uris$png
+        )
+      }
+
+      if (card_data$layout %in% c("transform")) {
+        out <- tibble::tibble(
+          layout = card_data$layout,
+          name = card_data$name,
+          cmc = card_data$cmc,
+          mana_cost = card_data$mana_cost,
+          type = card_data$type_line,
+          produced_mana = paste0(card_data$produced_mana, collapse = ""),
+          img_src = card_data$card_faces$image_uris.png[[1]]
         )
       }
 
@@ -71,7 +84,8 @@ add_scryfall_data <- function(card_data) {
           cmc = card_data$cmc,
           mana_cost = paste0(card_data$card_faces$mana_cost, collapse = " // "),
           type = paste0(card_data$card_faces$type_line, collapse = " // "),
-          produced_mana = paste0(card_data$produced_mana, collapse = "")
+          produced_mana = paste0(card_data$produced_mana, collapse = ""),
+          img_src = card_data$card_faces$image_uris.png[[1]]
         )
       }
       
@@ -84,7 +98,6 @@ add_scryfall_data <- function(card_data) {
     }) |> 
     purrr::list_rbind()
 
-    
 }
 
 add_custom_attributes <- function(card_data) {
