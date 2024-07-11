@@ -1,12 +1,12 @@
 summarise_hand <- function(opening_hand){
   list(
-    "n_lands"        = opening_hand$is_land        %>% sum(),
-    "n_color_lands"  = opening_hand$is_color_land  %>% sum(),
-    "n_lands_u"      = opening_hand$is_land_u      %>% sum(),
-    "n_lands_b"      = opening_hand$is_land_b      %>% sum(),
-    "n_mdfc_lands"   = opening_hand$is_mdfc_land   %>% sum(),
-    "n_mdfc_lands_u" = opening_hand$is_mdfc_land_u %>% sum(),
-    "n_mdfc_lands_b" = opening_hand$is_mdfc_land_b %>% sum(),
+    "n_lands"        = opening_hand$land        %>% sum(),
+    "n_color_lands"  = opening_hand$color_land  %>% sum(),
+    "n_lands_u"      = opening_hand$land_u      %>% sum(),
+    "n_lands_b"      = opening_hand$land_b      %>% sum(),
+    "n_mdfc_lands"   = opening_hand$mdfc_land   %>% sum(),
+    "n_mdfc_lands_u" = opening_hand$mdfc_land_u %>% sum(),
+    "n_mdfc_lands_b" = opening_hand$mdfc_land_b %>% sum(),
     
     "n_enablers"   = opening_hand$enabler   %>% sum(),
     "n_enablers_0" = opening_hand$enabler_0 %>% sum(),
