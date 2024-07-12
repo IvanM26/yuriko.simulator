@@ -106,6 +106,7 @@ add_scryfall_data <- function(card_data) {
 add_custom_attributes <- function(card_data) {
 
   card_data |>
+    edit_scryfall_data() |> 
     dplyr::mutate(
       enabler = is_enabler(cmc, type),
       enabler_0 = is_enabler_0(enabler, mana_cost),
@@ -137,5 +138,38 @@ add_custom_attributes <- function(card_data) {
       mana_crypt = name == "Mana Crypt",
       mox_diamond = name == "Mox Diamond"
     )
+
+}
+
+edit_scryfall_data <- function(card_data) {
+
+  # For simplicity, we assume that we are playing first
+  # which means Gemstone Caverns produces only colorless mana
+  if ("Gemstone Caverns" %in% card_data$name) {
+    card_data <- card_data |> 
+      dplyr::mutate(
+        produced_mana = ifelse(
+          test = name == "Gemstone Caverns",
+          yes = "C",
+          no = produced_mana
+        )
+      )
+  }
+  
+  # With Demonic Tutor we can tutor an Enabler with MV = 0
+  # So we can consider Demonic Tutor as an Enabler that costs 1B
+  # (for which logic was already defined)
+  if ("Demonic Tutor" %in% card_data$name) {
+    card_data <- card_data |> 
+      dplyr::mutate(
+        type = ifelse(
+          test = name == "Demonic Tutor",
+          yes = "Creature // Sorcery",
+          no = type
+        )
+      )
+  }
+  
+  card_data
 
 }

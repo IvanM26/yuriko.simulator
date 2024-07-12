@@ -1,6 +1,9 @@
 #' @export
 is_yuriko_on_T2 <- function(opening_hand){
 
+  # TODO: Add parameter to indicate whether we are playing first
+  # TODO: Add logic to account for Gemstone Caverns when we are not playing first
+
   hand_metrics <- summarise_hand(opening_hand)
 
   if (hand_metrics$n_enablers >= 1){
