@@ -1,4 +1,4 @@
-parse_txt_file <- function(filepath) {
+parse_txt_file <- function(filepath, run_checks = TRUE) {
 
   # Read cards into a character vector
   cards <- readLines(filepath, warn = FALSE)
@@ -22,10 +22,14 @@ parse_txt_file <- function(filepath) {
       extra = "merge",
       convert = TRUE
     )
+  
+  if (run_checks) {
 
-  # Check that the main deck has 99 cards
-  if (sum(cards_as_tibble$n_cards) != 99) {
-    cli::cli_abort("Main deck should have 99 cards")
+    # Check that the main deck has 99 cards
+    if (sum(cards_as_tibble$n_cards) != 99) {
+      cli::cli_abort("Main deck should have 99 cards")
+    }
+
   }
 
   return(cards_as_tibble)
