@@ -3,11 +3,11 @@ filepath <- system.file("extdata", "decklist.xlsx", package = "yuriko.simulator"
 decklist <- readxl::read_xlsx(filepath)
 
 # T1 YURIKO ####
-hand <- get_hand(decklist, c("Mana Crypt", "Island1", "Chrome Mox", "Snuff Out"))
+hand <- get_hand(decklist, c("Mana Crypt", "Island", "Chrome Mox", "Snuff Out"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(decklist, c("Mana Crypt", "Swamp1", "Chrome Mox", "Snuff Out"))
+hand <- get_hand(decklist, c("Mana Crypt", "Swamp", "Chrome Mox", "Snuff Out"))
 test_that("no 1ub on t1",
           {expect_false(is_yuriko_on_T2(hand))})
 
@@ -15,7 +15,7 @@ hand <- get_hand(decklist, c("Mana Crypt", "Mutavault", "Chrome Mox", "Snuff Out
 test_that("no 1ub on t1",
           {expect_false(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(decklist, c("Mana Crypt", "Scalding Tarn", "Chrome Mox", "Gingerbrute"))
+hand <- get_hand(decklist, c("Mana Crypt", "Scalding Tarn", "Chrome Mox", "Universal Automaton"))
 test_that("no 1ub on t1",
           {expect_false(is_yuriko_on_T2(hand))})
 
@@ -23,11 +23,11 @@ hand <- get_hand(decklist, c("Mana Crypt", "Scalding Tarn", "Lotus Petal"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(decklist, c("Mana Crypt", "Swamp1", "Lotus Petal"))
+hand <- get_hand(decklist, c("Mana Crypt", "Swamp", "Lotus Petal"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(decklist, c("Mana Crypt", "Island1", "Lotus Petal"))
+hand <- get_hand(decklist, c("Mana Crypt", "Island", "Lotus Petal"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -35,11 +35,11 @@ hand <- get_hand(decklist, c("Mana Crypt", "Mutavault", "Chrome Mox", "Snuff Out
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(decklist, c("Boggart Trawler", "Mana Crypt", "Island1", "Chrome Mox"))
+hand <- get_hand(decklist, c("Boggart Trawler", "Mana Crypt", "Island", "Chrome Mox"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(decklist, c("Boggart Trawler", "Mana Crypt", "Island1", "Mox Diamond"))
+hand <- get_hand(decklist, c("Boggart Trawler", "Mana Crypt", "Island", "Mox Diamond"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -59,7 +59,7 @@ hand <- get_hand(decklist, c("Dark Ritual", "Boggart Trawler", "Lotus Petal"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(decklist, c("Dark Ritual", "Island1", "Lotus Petal"))
+hand <- get_hand(decklist, c("Dark Ritual", "Island", "Lotus Petal"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -99,11 +99,11 @@ hand <- get_hand(decklist, c("Mana Crypt", "Dark Ritual", "Chrome Mox"))
 test_that("no 1ub on t1",
           {expect_false(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(decklist, c("Mana Crypt", "Dark Ritual", "Chrome Mox", "Swamp1"))
+hand <- get_hand(decklist, c("Mana Crypt", "Dark Ritual", "Chrome Mox", "Swamp"))
 test_that("no 1ub on t1",
           {expect_false(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(decklist, c("Mana Crypt", "Island1", "Chrome Mox", "Swamp1"))
+hand <- get_hand(decklist, c("Mana Crypt", "Island", "Chrome Mox", "Swamp"))
 test_that("no 1ub on t1",
           {expect_false(is_yuriko_on_T2(hand))})
 
