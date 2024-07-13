@@ -59,6 +59,7 @@ add_scryfall_data <- function(card_data) {
 
       if (card_data$layout %in% c("split", "flip", "adventure", "normal")) {
         out <- tibble::tibble(
+          card_name = card_name,
           layout = card_data$layout,
           name = card_data$name,
           cmc = card_data$cmc,
@@ -72,6 +73,7 @@ add_scryfall_data <- function(card_data) {
 
       if (card_data$layout %in% c("transform")) {
         out <- tibble::tibble(
+          card_name = card_name,
           layout = card_data$layout,
           name = card_data$name,
           cmc = card_data$cmc,
@@ -85,6 +87,7 @@ add_scryfall_data <- function(card_data) {
 
       if (card_data$layout == "modal_dfc") {
         out <- tibble::tibble(
+          card_name = card_name,
           layout = card_data$layout,
           name = card_data$name,
           cmc = card_data$cmc,
@@ -136,11 +139,11 @@ add_custom_attributes <- function(card_data) {
       mdfc_land = is_mdfc_land(layout, type),
       mdfc_land_u = is_mdfc_land_u(mdfc_land, produced_mana),
       mdfc_land_b = is_mdfc_land_b(mdfc_land, produced_mana),
-      chrome_mox = name == "Chrome Mox",
-      dark_ritual = name == "Dark Ritual",
-      lotus_petal = name == "Lotus Petal",
-      mana_crypt = name == "Mana Crypt",
-      mox_diamond = name == "Mox Diamond"
+      chrome_mox = card_name == "Chrome Mox",
+      dark_ritual = card_name == "Dark Ritual",
+      lotus_petal = card_name == "Lotus Petal",
+      mana_crypt = card_name == "Mana Crypt",
+      mox_diamond = card_name == "Mox Diamond"
     )
 
 }
