@@ -60,49 +60,49 @@ add_scryfall_data <- function(card_data) {
       response <- httr::GET(url, query = query_params)
       
       # Parse JSON content
-      card_data <- response |>
+      card_info <- response |>
         httr::content(as = "text") |> 
         jsonlite::fromJSON(flatten = TRUE)
 
-      if (card_data$layout %in% c("split", "flip", "adventure", "normal")) {
+      if (card_info$layout %in% c("split", "flip", "adventure", "normal")) {
         out <- tibble::tibble(
           card_name = card_name,
-          layout = card_data$layout,
-          name = card_data$name,
-          cmc = card_data$cmc,
-          colors = paste0(card_data$colors, collapse = ""),
-          mana_cost = card_data$mana_cost,
-          type = card_data$type_line,
-          produced_mana = paste0(card_data$produced_mana, collapse = ""),
-          img_src = card_data$image_uris$png
+          layout = card_info$layout,
+          name = card_info$name,
+          cmc = card_info$cmc,
+          colors = paste0(card_info$colors, collapse = ""),
+          mana_cost = card_info$mana_cost,
+          type = card_info$type_line,
+          produced_mana = paste0(card_info$produced_mana, collapse = ""),
+          img_src = card_info$image_uris$png
         )
       }
 
-      if (card_data$layout %in% c("transform")) {
+      if (card_info$layout %in% c("transform")) {
         out <- tibble::tibble(
           card_name = card_name,
-          layout = card_data$layout,
-          name = card_data$name,
-          cmc = card_data$cmc,
-          colors = paste0(card_data$card_faces$colors[[1]], collapse = ""),
-          mana_cost = paste0(card_data$card_faces$mana_cost[[1]], collapse = ""),
-          type = card_data$type_line,
-          produced_mana = paste0(card_data$produced_mana, collapse = ""),
-          img_src = card_data$card_faces$image_uris.png[[1]]
+          layout = card_info$layout,
+          name = card_info$name,
+          cmc = card_info$cmc,
+          colors = paste0(card_info$card_faces$colors[[1]], collapse = ""),
+          mana_cost = paste0(card_info$card_faces$mana_cost[[1]], collapse = ""),
+          type = card_info$type_line,
+          produced_mana = paste0(card_info$produced_mana, collapse = ""),
+          img_src = card_info$card_faces$image_uris.png[[1]]
         )
       }
 
-      if (card_data$layout == "modal_dfc") {
+      if (card_info$layout == "modal_dfc") {
         out <- tibble::tibble(
           card_name = card_name,
-          layout = card_data$layout,
-          name = card_data$name,
-          cmc = card_data$cmc,
-          colors = paste0(card_data$card_faces$colors[[1]], collapse = ""),
-          mana_cost = paste0(card_data$card_faces$mana_cost, collapse = " // "),
-          type = paste0(card_data$card_faces$type_line, collapse = " // "),
-          produced_mana = paste0(card_data$produced_mana, collapse = ""),
-          img_src = card_data$card_faces$image_uris.png[[1]]
+          layout = card_info$layout,
+          name = card_info$name,
+          cmc = card_info$cmc,
+          colors = paste0(card_info$card_faces$colors[[1]], collapse = ""),
+          mana_cost = paste0(card_info$card_faces$mana_cost, collapse = " // "),
+          type = paste0(card_info$card_faces$type_line, collapse = " // "),
+          produced_mana = paste0(card_info$produced_mana, collapse = ""),
+          img_src = card_info$card_faces$image_uris.png[[1]]
         )
       }
       
