@@ -3,7 +3,7 @@ hand_produces_ub_and_three_mana_T1 <- function(hand_metrics, constraint){
   if (constraint == "U ON T1"){
     
     n_lands_constraint_color     <- hand_metrics$n_lands_u
-    n_mdfc_lands_constrain_color <- hand_metrics$n_mdfc_lands_u
+    n_mdfc_lands_constraint_color <- hand_metrics$n_mdfc_lands_u
     n_cards_constraint_color     <- hand_metrics$n_cards_u
     
     n_lands_other_color      <- hand_metrics$n_lands_b
@@ -14,7 +14,7 @@ hand_produces_ub_and_three_mana_T1 <- function(hand_metrics, constraint){
   } else if (constraint == "B ON T1"){
     
     n_lands_constraint_color     <- hand_metrics$n_lands_b
-    n_mdfc_lands_constrain_color <- hand_metrics$n_mdfc_lands_b
+    n_mdfc_lands_constraint_color <- hand_metrics$n_mdfc_lands_b
     n_cards_constraint_color     <- hand_metrics$n_cards_b
     
     n_lands_other_color      <- hand_metrics$n_lands_u
