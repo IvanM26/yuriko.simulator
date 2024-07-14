@@ -115,37 +115,56 @@ add_custom_attributes <- function(card_data) {
   card_data |>
     edit_scryfall_data() |> 
     dplyr::mutate(
+
       enabler = is_enabler(cmc, type),
+
+      # Enabler cmc
       enabler_0 = is_enabler_0(enabler, mana_cost),
-      enabler_1 = is_enabler_1(enabler, cmc, mana_cost),
+      enabler_1 = is_enabler_1(enabler, cmc, mana_cost),      
+      enabler_2 = is_enabler_2(enabler, cmc),
+      enabler_3 = is_enabler_3(enabler, cmc),
+
+      # Enabler mana cost (non-mdfc)
       enabler_c = is_enabler_c(enabler_1, mana_cost),
       enabler_u = is_enabler_u(enabler_1, mana_cost),
       enabler_b = is_enabler_b(enabler_1, mana_cost),
-      enabler_2 = is_enabler_2(enabler, cmc),
+
       enabler_1u = is_enabler_1u(enabler_2, mana_cost),
       enabler_1b = is_enabler_1b(enabler_2, mana_cost),
       enabler_uu = is_enabler_uu(enabler_2, mana_cost),
       enabler_bb = is_enabler_bb(enabler_2, mana_cost),
       enabler_ub = is_enabler_ub(enabler_2, mana_cost),
-      enabler_3 = is_enabler_3(enabler, cmc),
-      enabler_2u = is_enabler_2u(enabler_3, mana_cost),
-      enabler_2b = is_enabler_2b(enabler_3, mana_cost),
+
+      enabler_2u = is_enabler_2u(layout, enabler_3, mana_cost),
+      enabler_2b = is_enabler_2b(layout, enabler_3, mana_cost),
+
+      # Enabler mana cost (mdfc)
+      mdfc_enabler_2u = is_mdfc_enabler_2u(layout, enabler_3, mana_cost),
+      mdfc_enabler_2b = is_mdfc_enabler_2b(layout, enabler_3, mana_cost),
+
+      # Card color
       color_u = is_color_u(mana_cost),
       color_b = is_color_b(mana_cost),
+
+      # Lands (non-mdfc)
       land = is_land(type),
       color_land = is_color_land(land, produced_mana),
       land_u = is_land_u(color_land, produced_mana),
       land_b = is_land_b(color_land, produced_mana),
+
+      # Lands (mdfc)
       mdfc_land = is_mdfc_land(layout, type),
       mdfc_land_u = is_mdfc_land_u(mdfc_land, produced_mana),
       mdfc_land_b = is_mdfc_land_b(mdfc_land, produced_mana),
+
+      # Cards that require additional logic
       chrome_mox = card_name == "Chrome Mox",
       dark_ritual = card_name == "Dark Ritual",
       lotus_petal = card_name == "Lotus Petal",
       mana_crypt = card_name == "Mana Crypt",
       mox_diamond = card_name == "Mox Diamond"
-    )
 
+    )
 }
 
 edit_scryfall_data <- function(card_data) {

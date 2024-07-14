@@ -26,6 +26,9 @@ summarise_hand <- function(opening_hand){
     
     "n_enablers_2u" = opening_hand$enabler_2u %>% sum(),
     "n_enablers_2b" = opening_hand$enabler_2b %>% sum(),
+    
+    "n_mdfc_enablers_2u" = opening_hand$mdfc_enabler_2u %>% sum(),
+    "n_mdfc_enablers_2b" = opening_hand$mdfc_enabler_2b %>% sum(),
 
     "n_cards_u" = opening_hand$color_u %>% sum(),
     "n_cards_b" = opening_hand$color_b %>% sum(),
