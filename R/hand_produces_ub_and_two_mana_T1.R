@@ -3,7 +3,7 @@ hand_produces_ub_and_two_mana_T1 <- function(hand_metrics, constraint){
   if (constraint %in% c("U ON T1", "UU ON T1")){
     
     n_lands_constraint_color     <- hand_metrics$n_lands_u
-    n_mdfc_lands_constrain_color <- hand_metrics$n_mdfc_lands_u
+    n_mdfc_lands_constraint_color <- hand_metrics$n_mdfc_lands_u
     n_cards_constraint_color     <- hand_metrics$n_cards_u
     
     n_lands_other_color      <- hand_metrics$n_lands_b
@@ -14,7 +14,7 @@ hand_produces_ub_and_two_mana_T1 <- function(hand_metrics, constraint){
   } else if (constraint %in% c("B ON T1", "BB ON T1")){
     
     n_lands_constraint_color     <- hand_metrics$n_lands_b
-    n_mdfc_lands_constrain_color <- hand_metrics$n_mdfc_lands_b
+    n_mdfc_lands_constraint_color <- hand_metrics$n_mdfc_lands_b
     n_cards_constraint_color     <- hand_metrics$n_cards_b
     
     n_lands_other_color      <- hand_metrics$n_lands_u
@@ -48,7 +48,7 @@ hand_produces_ub_and_two_mana_T1 <- function(hand_metrics, constraint){
         if (hand_metrics$n_mdfc_lands >= 1) return(TRUE)
       }
       if (constraint %in% c("UU ON T1", "BB ON T1")) {
-        if (n_mdfc_lands_constrain_color >= 1) return(TRUE)
+        if (n_mdfc_lands_constraint_color >= 1) return(TRUE)
       }
     }
   }

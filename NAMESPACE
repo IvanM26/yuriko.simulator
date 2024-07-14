@@ -3,4 +3,3 @@
 export(draw_seven)
 export(get_hand)
 export(is_yuriko_on_T2)
-importFrom(magrittr,"%>%")
