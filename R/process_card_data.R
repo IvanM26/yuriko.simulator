@@ -1,4 +1,11 @@
-parse_txt_file <- function(filepath, run_checks = TRUE) {
+#' @export
+process_card_data <- function(filepath, run_checks = TRUE) {
+  parse_txt_file(filepath, run_checks) |> 
+    add_scryfall_data() |> 
+    add_custom_attributes()
+}
+
+parse_txt_file <- function(filepath, run_checks) {
 
   # Read cards into a character vector
   cards <- readLines(filepath, warn = FALSE)

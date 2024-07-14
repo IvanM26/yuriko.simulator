@@ -3,3 +3,4 @@
 export(draw_seven)
 export(get_hand)
 export(is_yuriko_on_T2)
+export(process_card_data)
