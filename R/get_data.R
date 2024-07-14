@@ -77,8 +77,8 @@ add_scryfall_data <- function(card_data) {
           layout = card_data$layout,
           name = card_data$name,
           cmc = card_data$cmc,
-          colors = paste0(card_data$colors, collapse = ""),
-          mana_cost = card_data$mana_cost,
+          colors = paste0(card_data$card_faces$colors[[1]], collapse = ""),
+          mana_cost = paste0(card_data$card_faces$mana_cost[[1]], collapse = ""),
           type = card_data$type_line,
           produced_mana = paste0(card_data$produced_mana, collapse = ""),
           img_src = card_data$card_faces$image_uris.png[[1]]
