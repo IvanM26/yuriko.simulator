@@ -1,7 +1,7 @@
 #' @export
-process_card_data <- function(filepath, run_checks = TRUE) {
+process_card_data <- function(filepath, run_checks = TRUE, waiter = NULL) {
   parse_txt_file(filepath, run_checks) |> 
-    add_scryfall_data() |> 
+    add_scryfall_data(waiter) |> 
     add_custom_attributes()
 }
 
@@ -43,12 +43,12 @@ parse_txt_file <- function(filepath, run_checks) {
 
 }
 
-add_scryfall_data <- function(card_data) {
+add_scryfall_data <- function(card_data, waiter = NULL) {
 
   card_data |> 
     dplyr::pull(card_name) |> 
-    purrr::map(.f = function(card_name) {
-      
+    purrr::imap(.f = function(card_name, card_index) {
+
       # Wait between requests to the API
       Sys.sleep(0.1)
 
@@ -108,7 +108,18 @@ add_scryfall_data <- function(card_data) {
       
       # TODO: add logic for "prototype" layout
       
-      message(card_name)
+      message <- glue::glue("Processing card { card_index } of { nrow(card_data) }: { card_name }")
+      
+      if (!is.null(waiter)) {
+        waiter$update(
+          shiny::tagList(
+            waiter::spin_fading_circles(),
+            message
+          )
+        )
+      } else {
+        cli::cli_inform(message)
+      }
       
       out
 
