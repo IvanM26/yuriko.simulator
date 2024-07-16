@@ -1,7 +1,7 @@
 #' @export
-process_card_data <- function(filepath, run_checks = TRUE, waiter = NULL) {
+process_card_data <- function(filepath, run_checks = TRUE, use_httr = TRUE, waiter = NULL) {
   parse_txt_file(filepath, run_checks) |> 
-    add_scryfall_data(waiter) |> 
+    add_scryfall_data(use_httr, waiter) |> 
     add_custom_attributes()
 }
 
@@ -43,7 +43,7 @@ parse_txt_file <- function(filepath, run_checks) {
 
 }
 
-add_scryfall_data <- function(card_data, waiter = NULL) {
+add_scryfall_data <- function(card_data, use_httr = TRUE, waiter = NULL) {
 
   card_data |> 
     dplyr::pull(card_name) |> 
@@ -51,18 +51,39 @@ add_scryfall_data <- function(card_data, waiter = NULL) {
 
       # Wait between requests to the API
       Sys.sleep(0.1)
+      
+      if (use_httr) {
 
-      # API endpoint and query parameters
-      url <- "https://api.scryfall.com/cards/named"
-      query_params <- list(exact = card_name)
-      
-      # Make GET request to Scryfall API
-      response <- httr::GET(url, query = query_params)
-      
-      # Parse JSON content
-      card_info <- response |>
-        httr::content(as = "text") |> 
-        jsonlite::fromJSON(flatten = TRUE)
+        # API endpoint and query parameters
+        url <- "https://api.scryfall.com/cards/named"
+        query_params <- list(exact = card_name)
+        
+        # Make GET request to Scryfall API
+        response <- httr::GET(url, query = query_params)
+        
+        card_info <- response |>
+          httr::content(as = "text") |> 
+          jsonlite::fromJSON(flatten = TRUE)
+
+      } else {
+
+        # httr does not work with shinylive
+        temp_card_json <- tempfile(pattern = "card", fileext = ".json")
+
+        card_name_for_url <- card_name |> 
+          stringr::str_replace_all(" ", "%20") |> 
+          stringr::str_replace_all("/", "%20")
+
+        url <- glue::glue("https://api.scryfall.com/cards/named?exact={ card_name_for_url }")
+
+        # API endpoint and query parameters
+        download.file(url, temp_card_json)
+
+        # Parse JSON content
+        card_info <- temp_card_json |> 
+          jsonlite::fromJSON(flatten = TRUE)
+
+      }
 
       if (card_info$layout %in% c("split", "flip", "adventure", "normal")) {
         out <- tibble::tibble(
