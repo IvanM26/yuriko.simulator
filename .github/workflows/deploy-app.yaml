@@ -1,40 +1,40 @@
-name: Deploy to Shinylive
-
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    branches:
-      - master
+    branches: [master]
+  workflow_dispatch:
+
+name: shinylive
+
+permissions: read-all
 
 jobs:
-  deploy:
+  pkgdown:
     runs-on: ubuntu-latest
-
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        ref: shinylive-deployment
-        persist-credentials: false # This is necessary to push to the branch later
+      - uses: actions/checkout@v4
 
-    - name: Set up R
-      uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
 
-    - name: Install R packages
-      run: |
-        install.packages("shinylive")
+      - name: Install R packages
+        run: |
+          install.packages("shinylive")
 
-    - name: Run create_global script
-      run: Rscript dev/add_app_global.R
+      - name: Build site
+        run: shinylive::export('app', 'docs')
+        shell: Rscript {0}
 
-    - name: Run shinylive export
-      run: Rscript -e "shinylive::export('app', 'docs')"
-
-    - name: Commit and push changes
-      run: |
-        git config --global user.name 'github-actions'
-        git config --global user.email 'github-actions@github.com'
-        git add docs
-        git commit -m 'Update docs folder for shinylive deployment'
-        git push origin shinylive-deployment
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to GitHub pages 🚀
+        if: github.event_name != 'pull_request'
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        with:
+          clean: false
+          branch: gh-pages
+          folder: docs
