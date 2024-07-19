@@ -69,6 +69,10 @@ bslib::page_navbar(
       bslib::card(
         bslib::card_header("Your Hand"),
         bslib::layout_columns(
+          col_widths = c(
+            -2, 2, 2, 2, 2, -2, # 4 cards in row one
+              -3, 2, 2, 2, -3   # 3 cards in row two
+          ),
           shiny::uiOutput("image1", inline = TRUE),
           shiny::uiOutput("image2", inline = TRUE),
           shiny::uiOutput("image3", inline = TRUE),
@@ -76,9 +80,9 @@ bslib::page_navbar(
           shiny::uiOutput("image5", inline = TRUE),
           shiny::uiOutput("image6", inline = TRUE),
           shiny::uiOutput("image7", inline = TRUE)
-        ),
-        shiny::uiOutput("test_hand_output")
-      )
+        )
+      ),
+      shiny::uiOutput("test_hand_output")
     )
   ),
   bslib::nav_panel(
