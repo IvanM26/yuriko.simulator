@@ -1,5 +1,5 @@
 bslib::page_navbar(
-  title = "Mulligan Simulator",
+  title = "Yuriko Simulator",
   bslib::nav_panel(
     title = "Your Decklist",
     waiter::useWaiter(),
