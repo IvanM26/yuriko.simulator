@@ -1,23 +1,40 @@
-# Workflow derived from https://github.com/posit-dev/r-shinylive/tree/actions-v1/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
-#
-# Basic example of a GitHub Actions workflow that builds a Shiny app and deploys
-# it to GitHub Pages.
-name: Deploy app to gh-pages
+name: Deploy to Shinylive
 
 on:
-  # Manually trigger the workflow
-  workflow_dispatch:
-  # Trigger on push to `main` branch
   push:
-    branches: ["master"]
-  # Trigger on pull request to all branches (but do not deploy to gh-pages)
-  pull_request:
+    branches:
+      - master
 
 jobs:
-  shinylive:
-    uses: posit-dev/r-shinylive/.github/workflows/deploy-app.yaml@actions-v1
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-    permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment originates from an appropriate source
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        ref: shinylive-deployment
+        persist-credentials: false # This is necessary to push to the branch later
+
+    - name: Set up R
+      uses: r-lib/actions/setup-r@v2
+
+    - name: Install R packages
+      run: |
+        install.packages("shinylive")
+
+    - name: Run create_global script
+      run: Rscript dev/add_app_global.R
+
+    - name: Run shinylive export
+      run: Rscript -e "shinylive::export('app', 'docs')"
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git add docs
+        git commit -m 'Update docs folder for shinylive deployment'
+        git push origin shinylive-deployment
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
