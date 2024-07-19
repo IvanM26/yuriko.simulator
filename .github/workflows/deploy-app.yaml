@@ -28,7 +28,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Create global.R
-        run: Rscript dev/create_global.R
+        run: Rscript dev/add_app_global.R
 
       - name: Build site
         run: shinylive::export('app', 'docs')
