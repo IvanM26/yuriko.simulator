@@ -24,8 +24,11 @@ jobs:
           use-public-rspm: true
 
       - name: Install R packages
-        run: |
-          install.packages("shinylive")
+        run: install.packages('shinylive')
+        shell: Rscript {0}
+
+      - name: Create global.R
+        run: Rscript dev/create_global.R
 
       - name: Build site
         run: shinylive::export('app', 'docs')
