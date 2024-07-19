@@ -150,3 +150,7 @@ test_that("enabler 0 + no lands and mdfc u land and chrome mox on b",
 hand <- get_hand(testdata, c("Ornithopter", "Agadeem's Awakening", "Chrome Mox", "Force of Will"))
 test_that("enabler 0 + no lands and mdfc b land and chrome mox on u", 
           {expect_true(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(testdata, c("Ornithopter", "Agadeem's Awakening", "Sink into Stupor"))
+test_that("enabler 0 + no lands but mdfc b and mdfc u", 
+          {expect_true(is_yuriko_on_T2(hand))})

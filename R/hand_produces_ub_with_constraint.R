@@ -112,6 +112,7 @@ hand_produces_ub_with_constraint <- function(hand_metrics, constraint, use_lotus
     if (use_lotus_petal & hand_metrics$lotus_petal & n_mdfc_lands_constraint_color >= 1) return(TRUE)
     if (n_mdfc_lands_constraint_color >= 1 & hand_metrics$chrome_mox & n_cards_other_color >= 1) return(TRUE)
     if (n_mdfc_lands_other_color >= 1 & hand_metrics$chrome_mox & n_cards_constraint_color >= 2) return(TRUE)
+    if (n_mdfc_lands_constraint_color >= 1 & n_mdfc_lands_other_color >= 1) return(TRUE)
   }
   
   return(FALSE)

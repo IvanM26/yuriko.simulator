@@ -157,3 +157,6 @@ hand <- get_hand(testdata, c("Universal Automaton", "Gemstone Caverns", "Sink in
 test_that("no ub on t2", 
           {expect_false(is_yuriko_on_T2(hand))})
 
+hand <- get_hand(testdata, c("Universal Automaton", "Agadeem's Awakening", "Sink into Stupor"))
+test_that("enabler 1 + no lands but mdfc b and mdfc u", 
+          {expect_true(is_yuriko_on_T2(hand))})

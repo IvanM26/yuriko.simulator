@@ -87,6 +87,7 @@ hand_produces_ub <- function(hand_metrics, use_lotus_petal = TRUE){
     if (use_lotus_petal & hand_metrics$lotus_petal & hand_metrics$n_mdfc_lands >= 1) return(TRUE)
     if (hand_metrics$n_mdfc_lands_u >= 1 & hand_metrics$chrome_mox & hand_metrics$n_cards_b >= 1) return(TRUE)
     if (hand_metrics$n_mdfc_lands_b >= 1 & hand_metrics$chrome_mox & hand_metrics$n_cards_u >= 1) return(TRUE)
+    if (hand_metrics$n_mdfc_lands_u >= 1 & hand_metrics$n_mdfc_lands_b >= 1) return(TRUE)
   }
   
   return(FALSE)

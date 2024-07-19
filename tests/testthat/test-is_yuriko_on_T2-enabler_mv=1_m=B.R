@@ -168,3 +168,7 @@ test_that("enabler 1 b + no color lands and mdfc b land and lotus petal",
 hand <- get_hand(testdata, c("Changeling Outcast", "Lotus Petal", "Agadeem's Awakening", "Swamp", "Takenuma, Abandoned Mire"))
 test_that("enabler 1 b + b lands and lotus petal", 
           {expect_true(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(testdata, c("Changeling Outcast", "Agadeem's Awakening", "Sink into Stupor"))
+test_that("enabler b + no lands but mdfc b and mdfc u", 
+          {expect_true(is_yuriko_on_T2(hand))})

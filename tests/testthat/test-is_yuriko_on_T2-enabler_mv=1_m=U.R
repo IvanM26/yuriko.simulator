@@ -172,3 +172,7 @@ test_that("no u t1",
 hand <- get_hand(testdata, c("Mothdust Changeling", "Lotus Petal", "Agadeem's Awakening", "Swamp", "Takenuma, Abandoned Mire"))
 test_that("no u t1", 
           {expect_false(is_yuriko_on_T2(hand))})
+
+hand <- get_hand(testdata, c("Mothdust Changeling", "Agadeem's Awakening", "Sink into Stupor"))
+test_that("enabler u + no lands but mdfc b and mdfc u", 
+          {expect_true(is_yuriko_on_T2(hand))})
