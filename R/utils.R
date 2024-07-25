@@ -1,19 +1,19 @@
 #' @export
-draw_seven <- function(decklist, must_have = NULL){
-  if (is.null(must_have)) {
+draw_seven <- function(decklist, fixed_cards = NULL){
+  if (is.null(fixed_cards)) {
 
     decklist |>
       dplyr::slice_sample(n = 7)
 
   } else {
-    n_must_have <- length(must_have)
+    n_fixed_cards <- length(fixed_cards)
     
     hand <- decklist |>
-      dplyr::filter(!card_name %in% must_have) |>
-      dplyr::slice_sample(n = 7 - n_must_have)
+      dplyr::filter(!card_name %in% fixed_cards) |>
+      dplyr::slice_sample(n = 7 - n_fixed_cards)
     
     hand |>
-      dplyr::bind_rows(decklist |> dplyr::filter(card_name %in% must_have))
+      dplyr::bind_rows(decklist |> dplyr::filter(card_name %in% fixed_cards))
   }
 
 }
