@@ -7,7 +7,7 @@ run_simulation <- function(decklist, fixed_cards = NULL, seed = 2611, n_sim) {
   n_yuriko_triggers_on_turn_two <- 0
   
   # Initialize progress bar
-  cli::cli_progress_bar("Running Simulation...", total = n_sim, format = paste0("ETA:{pb_eta}"))
+  cli::cli_progress_bar("Running Simulation...", total = n_sim)
   
   # Simulate...
   for (i in 1:n_sim) {
