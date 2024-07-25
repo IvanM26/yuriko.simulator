@@ -1,5 +1,8 @@
 function(input, output, session) {
 
+  # Remove delay to show progress bar
+  options(cli.progress_show_after = 0)
+
   w <- waiter::Waiter$new()
   
   decklist <- shiny::eventReactive(input$upload_decklist, {
