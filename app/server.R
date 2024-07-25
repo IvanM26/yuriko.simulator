@@ -16,6 +16,56 @@ function(input, output, session) {
   })
   
   shiny::observeEvent(decklist(), {
+    shiny::updateSelectInput(
+      session = session,
+      inputId = "fixed_cards",
+      choices = decklist()$card_name,
+      selected = NULL
+    )
+  })
+
+  prob_from_decklist <- shiny::eventReactive(input$simulate_from_decklist, {
+    run_simulation(decklist(), fixed_cards = input$fixed_cards, n_sim = input$n_sim)
+  })
+  
+  simulation_summary_from_decklist_html <- shiny::eventReactive(prob_from_decklist(), {
+
+    prob_first_two_hands <- 1 - (1 - prob_from_decklist()) ^ 2
+    prob_first_three_hands <- 1 - (1 - prob_from_decklist()) ^ 3
+    prob_first_four_hands <- 1 - (1 - prob_from_decklist()) ^ 4
+    
+    shiny::div(
+      shiny::tags$ul(
+        shiny::tags$li(shiny::HTML(glue::glue("{ shiny::strong(input$n_sim) } random 7-card hands were drawn from { shiny::strong('Your Decklist') }"))),
+        if (!is.null(input$fixed_cards)) shiny::tags$li(shiny::HTML(glue::glue("The following cards were fixed to appear in all hands: { paste0(input$fixed_cards, collapse = ', ')}"))),
+        shiny::tags$li(shiny::HTML(glue::glue("{ bold_percentage(prob_from_decklist()) } of the hands drawn had enough cards to trigger Yuriko on turn two")))
+      ),
+      if (is.null(input$fixed_cards)) {
+        shiny::div(
+          "Based on that value, it is expected that enough cards to trigger Yuriko on turn two will be present in:",
+          shiny::tags$ul(
+            shiny::tags$li(shiny::HTML(glue::glue("one of the first two hands drawn in { bold_percentage(prob_first_two_hands) } of matches"))),
+            shiny::tags$li(shiny::HTML(glue::glue("one of the first three hands drawn in { bold_percentage(prob_first_three_hands) }  of matches"))),
+            shiny::tags$li(shiny::HTML(glue::glue("one of the first four hands drawn in { bold_percentage(prob_first_four_hands) }  of matches"))),
+          ),
+          "Then, assuming a \"free\" mulligan we can say that:",
+          shiny::tags$ul(
+            shiny::tags$li(shiny::HTML(glue::glue("in { bold_percentage(prob_first_two_hands) } of matches a { shiny::strong('7-card') } hand will have enough cards to trigger Yuriko on turn two (i.e. considering at most one mulligan)"))),
+            shiny::tags$li(shiny::HTML(glue::glue("in { bold_percentage(prob_first_three_hands) } of matches a hand with { shiny::strong('at least 6 cards') } will have enough cards to trigger Yuriko on turn two (i.e. considering at most two mulligans)"))),
+            shiny::tags$li(shiny::HTML(glue::glue("in { bold_percentage(prob_first_four_hands) } of matches a hand with { shiny::strong('at least 5 cards') } will have enough cards to trigger Yuriko on turn two (i.e. considering at most three mulligans)"))),
+          )
+        )
+        
+      }
+    )
+
+  })
+  
+  output$simulation_summary_from_decklist <- shiny::renderUI({
+    simulation_summary_from_decklist_html()
+  })
+
+  shiny::observeEvent(decklist(), {
     shiny::updateSelectInput(session = session, inputId = "card1", choices = decklist()$card_name, selected = decklist()$card_name[[1]])
     shiny::updateSelectInput(session = session, inputId = "card2", choices = decklist()$card_name, selected = decklist()$card_name[[2]])
     shiny::updateSelectInput(session = session, inputId = "card3", choices = decklist()$card_name, selected = decklist()$card_name[[3]])

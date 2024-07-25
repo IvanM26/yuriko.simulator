@@ -18,7 +18,45 @@ bslib::page_navbar(
     )
   ),
   bslib::nav_panel(
-    title = "Simulate"
+    title = "Simulate",
+    shiny::tags$head(shiny::tags$style(shiny::HTML(" .fixed-cards .selectize-input { display: grid; } "))),
+    bslib::layout_sidebar(
+      sidebar = bslib::sidebar(
+        width = 400,
+        shiny::numericInput(
+          inputId = "n_sim",
+          label = "Number of Hands to Draw",
+          min = 1000,
+          max = 100000,
+          value = 1000
+        ),
+        shiny::selectizeInput(
+          inputId = "fixed_cards",
+          label = bslib::tooltip(
+            trigger = list(
+              "Select Fixed Card(s) for All Hands",
+              bsicons::bs_icon("info-circle")
+            ),
+            "Selected card(s) will be present in all simulated hands drawn"
+          ),
+          choices = NULL,
+          selected = NULL,
+          multiple = TRUE,
+          options = list(
+            maxItems = 7
+          )
+        ) |> 
+          shiny::tagAppendAttributes(class = "fixed-cards"),
+        shiny::actionButton(
+          inputId = "simulate_from_decklist",
+          label = "Run Simulation"
+        )
+      ),
+      bslib::card(
+        bslib::card_header("Simulation Results"),
+        shiny::uiOutput("simulation_summary_from_decklist")
+      )
+    )
   ),
   bslib::nav_panel(
     title = "Test Hand",
