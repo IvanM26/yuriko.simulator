@@ -3,13 +3,8 @@ function(input, output, session) {
   # Remove delay to show progress bar
   options(cli.progress_show_after = 0)
 
-  w <- waiter::Waiter$new()
-  
   decklist <- shiny::eventReactive(input$upload_decklist, {
-    w$show()
-    out <- process_card_data(input$upload_decklist$datapath, use_httr = FALSE, waiter = w)
-    waiter::waiter_hide()
-    out
+    process_card_data(input$upload_decklist$datapath, use_httr = FALSE)
   })
   
   output$table_decklist <- reactable::renderReactable({

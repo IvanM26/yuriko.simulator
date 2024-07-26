@@ -1,7 +1,7 @@
 #' @export
-process_card_data <- function(filepath, run_checks = TRUE, use_httr = TRUE, waiter = NULL) {
+process_card_data <- function(filepath, run_checks = TRUE, use_httr = TRUE) {
   parse_txt_file(filepath, run_checks) |> 
-    add_scryfall_data(use_httr, waiter) |> 
+    add_scryfall_data(use_httr) |> 
     add_custom_attributes()
 }
 
@@ -43,109 +43,120 @@ parse_txt_file <- function(filepath, run_checks) {
 
 }
 
-add_scryfall_data <- function(card_data, use_httr = TRUE, waiter = NULL) {
+add_scryfall_data <- function(card_data, use_httr = TRUE) {
 
-  card_data |> 
-    dplyr::pull(card_name) |> 
-    purrr::imap(.f = function(card_name, card_index) {
+  # Initialize an empty list to store the data
+  scryfall_data <- list()
 
-      # Wait between requests to the API
-      Sys.sleep(0.1)
+  # Extract card names from the input data
+  card_names <- card_data |>
+    dplyr::pull(card_name)
+
+  # Initialize progress bar
+  cli::cli_progress_bar("Processing Decklist...", total = nrow(card_data), format = paste0("ETA:{cli::pb_eta}"))
+  
+  # Iterate over each card
+  for (card_index in seq_along(card_names)) {
+    card_name <- card_names[card_index]
+
+    # Wait between requests to the API
+    Sys.sleep(0.1)
+
+    if (use_httr) {
+
+      # API endpoint and query parameters
+      url <- "https://api.scryfall.com/cards/named"
+      query_params <- list(exact = card_name)
+
+      # Make GET request to Scryfall API
+      response <- httr::GET(url, query = query_params)
+
+      # Parse JSON content
+      card_info <- response |>
+        httr::content(as = "text") |> 
+        jsonlite::fromJSON(flatten = TRUE)
       
-      if (use_httr) {
+    } else {
 
-        # API endpoint and query parameters
-        url <- "https://api.scryfall.com/cards/named"
-        query_params <- list(exact = card_name)
-        
-        # Make GET request to Scryfall API
-        response <- httr::GET(url, query = query_params)
-        
-        card_info <- response |>
-          httr::content(as = "text") |> 
-          jsonlite::fromJSON(flatten = TRUE)
+      # httr does not work with shinylive
+      temp_card_json <- tempfile(pattern = "card", fileext = ".json")
 
-      } else {
+      # Format card name for URL
+      card_name_for_url <- card_name |> 
+        stringr::str_replace_all(" ", "%20") |> 
+        stringr::str_replace_all("/", "%20")
 
-        # httr does not work with shinylive
-        temp_card_json <- tempfile(pattern = "card", fileext = ".json")
+      url <- glue::glue("https://api.scryfall.com/cards/named?exact={ card_name_for_url }")
 
-        card_name_for_url <- card_name |> 
-          stringr::str_replace_all(" ", "%20") |> 
-          stringr::str_replace_all("/", "%20")
+      # Download the JSON file
+      download.file(url, temp_card_json)
 
-        url <- glue::glue("https://api.scryfall.com/cards/named?exact={ card_name_for_url }")
+      # Parse JSON content
+      card_info <- temp_card_json |> 
+        jsonlite::fromJSON(flatten = TRUE)
 
-        # API endpoint and query parameters
-        download.file(url, temp_card_json)
+    }
 
-        # Parse JSON content
-        card_info <- temp_card_json |> 
-          jsonlite::fromJSON(flatten = TRUE)
+    # Process card data based on layout type
+    if (card_info$layout %in% c("split", "flip", "adventure", "normal")) {
+      card_index_scryfall_data <- tibble::tibble(
+        card_name = card_name,
+        layout = card_info$layout,
+        name = card_info$name,
+        cmc = card_info$cmc,
+        colors = paste0(card_info$colors, collapse = ""),
+        mana_cost = card_info$mana_cost,
+        type = card_info$type_line,
+        produced_mana = paste0(card_info$produced_mana, collapse = ""),
+        img_src = card_info$image_uris$png
+      )
+    }
 
-      }
+    if (card_info$layout %in% c("transform")) {
+      card_index_scryfall_data <- tibble::tibble(
+        card_name = card_name,
+        layout = card_info$layout,
+        name = card_info$name,
+        cmc = card_info$cmc,
+        colors = paste0(card_info$card_faces$colors[[1]], collapse = ""),
+        mana_cost = paste0(card_info$card_faces$mana_cost[[1]], collapse = ""),
+        type = card_info$type_line,
+        produced_mana = paste0(card_info$produced_mana, collapse = ""),
+        img_src = card_info$card_faces$image_uris.png[[1]]
+      )
+    }
 
-      if (card_info$layout %in% c("split", "flip", "adventure", "normal")) {
-        out <- tibble::tibble(
-          card_name = card_name,
-          layout = card_info$layout,
-          name = card_info$name,
-          cmc = card_info$cmc,
-          colors = paste0(card_info$colors, collapse = ""),
-          mana_cost = card_info$mana_cost,
-          type = card_info$type_line,
-          produced_mana = paste0(card_info$produced_mana, collapse = ""),
-          img_src = card_info$image_uris$png
-        )
-      }
+    if (card_info$layout == "modal_dfc") {
+      card_index_scryfall_data <- tibble::tibble(
+        card_name = card_name,
+        layout = card_info$layout,
+        name = card_info$name,
+        cmc = card_info$cmc,
+        colors = paste0(card_info$card_faces$colors[[1]], collapse = ""),
+        mana_cost = paste0(card_info$card_faces$mana_cost, collapse = " // "),
+        type = paste0(card_info$card_faces$type_line, collapse = " // "),
+        produced_mana = paste0(card_info$produced_mana, collapse = ""),
+        img_src = card_info$card_faces$image_uris.png[[1]]
+      )
+    }
 
-      if (card_info$layout %in% c("transform")) {
-        out <- tibble::tibble(
-          card_name = card_name,
-          layout = card_info$layout,
-          name = card_info$name,
-          cmc = card_info$cmc,
-          colors = paste0(card_info$card_faces$colors[[1]], collapse = ""),
-          mana_cost = paste0(card_info$card_faces$mana_cost[[1]], collapse = ""),
-          type = card_info$type_line,
-          produced_mana = paste0(card_info$produced_mana, collapse = ""),
-          img_src = card_info$card_faces$image_uris.png[[1]]
-        )
-      }
+    # TODO: add logic for "prototype" layout
 
-      if (card_info$layout == "modal_dfc") {
-        out <- tibble::tibble(
-          card_name = card_name,
-          layout = card_info$layout,
-          name = card_info$name,
-          cmc = card_info$cmc,
-          colors = paste0(card_info$card_faces$colors[[1]], collapse = ""),
-          mana_cost = paste0(card_info$card_faces$mana_cost, collapse = " // "),
-          type = paste0(card_info$card_faces$type_line, collapse = " // "),
-          produced_mana = paste0(card_info$produced_mana, collapse = ""),
-          img_src = card_info$card_faces$image_uris.png[[1]]
-        )
-      }
-      
-      # TODO: add logic for "prototype" layout
-      
-      message <- glue::glue("Processing card { card_index } of { nrow(card_data) }: { card_name }")
-      
-      if (!is.null(waiter)) {
-        waiter$update(
-          shiny::tagList(
-            waiter::spin_fading_circles(),
-            message
-          )
-        )
-      } else {
-        cli::cli_inform(message)
-      }
-      
-      out
+    # Add the processed card data to the list
+    scryfall_data[[card_index]] <- card_index_scryfall_data
 
-    }) |> 
-    purrr::list_rbind()
+    # Update the progress bar
+    cli::cli_progress_update()
+
+  }
+
+  # Combine all individual card dataframes into one
+  scryfall_data <- dplyr::bind_rows(scryfall_data)
+
+  # Mark progress as complete
+  cli::cli_progress_done()
+
+  return(scryfall_data)
 
 }
 

@@ -2,7 +2,6 @@ bslib::page_navbar(
   title = "Yuriko Simulator",
   bslib::nav_panel(
     title = "Your Decklist",
-    waiter::useWaiter(),
     bslib::layout_sidebar(
       sidebar = bslib::sidebar(
         width = 400,
