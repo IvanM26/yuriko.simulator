@@ -34,7 +34,7 @@ function(input, output, session) {
     
     shiny::div(
       shiny::tags$ul(
-        shiny::tags$li(shiny::HTML(glue::glue("{ shiny::strong(input$n_sim) } random 7-card hands were drawn from { shiny::strong('Your Decklist') }"))),
+        shiny::tags$li(shiny::HTML(glue::glue("{ shiny::strong( scales::label_comma()(input$n_sim) ) } random 7-card hands were drawn from { shiny::strong('Your Decklist') }"))),
         if (!is.null(input$fixed_cards)) shiny::tags$li(shiny::HTML(glue::glue("The following cards were fixed to appear in all hands: { paste0(input$fixed_cards, collapse = ', ')}"))),
         shiny::tags$li(shiny::HTML(glue::glue("{ bold_percentage(prob_from_decklist()) } of the hands drawn had enough cards to trigger Yuriko on turn two")))
       ),
