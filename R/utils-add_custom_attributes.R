@@ -75,12 +75,12 @@ is_mdfc_enabler_2b <- function(layout, is_enabler_3, mana_cost) {
 }
 
 # COLOR IDENTITY ####
-is_color_u <- function(colors) {
-  grepl("U", colors)
+is_color_u <- function(mana_cost) {
+  grepl("U", mana_cost)
 }
 
-is_color_b <- function(colors) {
-  grepl("B", colors)
+is_color_b <- function(mana_cost) {
+  grepl("B", mana_cost)
 }
 
 # LANDS ####
