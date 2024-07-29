@@ -4,7 +4,19 @@ function(input, output, session) {
   options(cli.progress_show_after = 0)
 
   decklist <- shiny::eventReactive(input$upload_decklist, {
-    process_card_data(input$user_file$datapath, use_httr = FALSE)
+    
+    input_source_path <- switch (input$decklist_source,
+      moxfield_url = input$user_moxfield_url,
+      file = input$user_file$datapath
+    )
+    
+    process_card_data(
+      decklist_source = input$decklist_source,
+      source_path = input_source_path,
+      use_httr = TRUE # DEV
+      # use_httr = FALSE # PROD
+    )
+
   })
   
   output$table_decklist <- reactable::renderReactable({

@@ -1,49 +1,52 @@
 #' @export
-process_card_data <- function(filepath, run_checks = TRUE, use_httr = TRUE) {
-  parse_txt_file(filepath, run_checks) |> 
+process_card_data <- function(decklist_source, source_path, use_httr) {
+  parse_decklist(decklist_source, source_path) |> 
     add_scryfall_data(use_httr) |> 
     add_custom_attributes()
 }
 
-parse_txt_file <- function(filepath, run_checks) {
-
-  # Read cards into a character vector
-  cards <- readLines(filepath, warn = FALSE)
-
-  # TODO: Error handler when the file is not structured correctly
-
-  # Find the index of the last card in the main deck
-  index_last_card_in_main_deck <- which(cards == "")[[1]] - 1
-
-  # Remove all cards that are not part of the main deck
-  cards <- cards[seq_len(index_last_card_in_main_deck)]
-
-  cards_as_tibble <- cards |> 
-    # Convert to tibble
-    tibble::tibble() |> 
-    # Separate into n_cards and card_name columns
-    tidyr::separate(
-      col = "cards",
-      into = c("n_cards", "card_name"),
-      sep = " ",
-      extra = "merge",
-      convert = TRUE
-    )
+parse_decklist <- function(decklist_source, source_path) {
   
-  if (run_checks) {
-
-    # Check that the main deck has 99 cards
-    if (sum(cards_as_tibble$n_cards) != 99) {
-      cli::cli_abort("Main deck should have 99 cards")
-    }
+  if (decklist_source == "moxfield_url") {
+    
+    moxfield_json <- source_path |> 
+      stringr::str_replace("https://www.moxfield.com/decks", "https://api.moxfield.com/v2/decks/all") |> 
+      jsonlite::fromJSON(flatten = TRUE)
+    
+    tibble::tibble(
+      card_name_source = names(moxfield_json$mainboard) |> sort()
+    )
+    
+  } else if (decklist_source == "file") {
+    
+    # Read cards into a character vector
+    cards <- readLines(source_path, warn = FALSE)
+    
+    # TODO: Error handler when the file is not structured correctly
+    
+    # Find the index of the last card in the main deck
+    index_last_card_in_main_deck <- which(cards == "")[[1]] - 1
+    
+    # Remove all cards that are not part of the main deck
+    cards <- cards[seq_len(index_last_card_in_main_deck)]
+    
+    cards_as_tibble <- cards |> 
+      # Convert to tibble
+      tibble::tibble() |> 
+      # Separate into n_cards and card_name columns
+      tidyr::separate(
+        col = "cards",
+        into = c("n_cards", "card_name_source"),
+        sep = " ",
+        extra = "merge",
+        convert = TRUE
+      )
 
   }
-
-  return(cards_as_tibble)
-
+  
 }
 
-add_scryfall_data <- function(card_data, use_httr = TRUE) {
+add_scryfall_data <- function(card_data, use_httr) {
 
   # Initialize an empty list to store the data
   scryfall_data <- list()
