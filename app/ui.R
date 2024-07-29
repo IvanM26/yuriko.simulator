@@ -93,41 +93,13 @@ shiny::tagList(
                   label = "Draw Random Hand"
                 ),
                 "Cards in Hand:",
-                shiny::selectInput(
-                  inputId = "card1",
-                  label = NULL,
-                  choices = NULL
-                ),
-                shiny::selectInput(
-                  inputId = "card2",
-                  label = NULL,
-                  choices = NULL
-                ),
-                shiny::selectInput(
-                  inputId = "card3",
-                  label = NULL,
-                  choices = NULL
-                ),
-                shiny::selectInput(
-                  inputId = "card4",
-                  label = NULL,
-                  choices = NULL
-                ),
-                shiny::selectInput(
-                  inputId = "card5",
-                  label = NULL,
-                  choices = NULL
-                ),
-                shiny::selectInput(
-                  inputId = "card6",
-                  label = NULL,
-                  choices = NULL
-                ),
-                shiny::selectInput(
-                  inputId = "card7",
-                  label = NULL,
-                  choices = NULL
-                )
+                shiny::selectInput(inputId = "card1", label = NULL, choices = NULL),
+                shiny::selectInput(inputId = "card2", label = NULL, choices = NULL),
+                shiny::selectInput(inputId = "card3", label = NULL, choices = NULL),
+                shiny::selectInput(inputId = "card4", label = NULL, choices = NULL),
+                shiny::selectInput(inputId = "card5", label = NULL, choices = NULL),
+                shiny::selectInput(inputId = "card6", label = NULL, choices = NULL),
+                shiny::selectInput(inputId = "card7", label = NULL, choices = NULL)
               ),
               bslib::card(
                 bslib::card_header("Your Hand"),
