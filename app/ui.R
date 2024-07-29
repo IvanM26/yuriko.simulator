@@ -52,8 +52,8 @@ shiny::tagList(
                   inputId = "n_sim",
                   label = "Number of Hands to Draw",
                   min = 1000,
-                  max = 100000,
-                  value = 1000
+                  value = 1000,
+                  step = 1
                 ),
                 shiny::selectizeInput(
                   inputId = "fixed_cards",
