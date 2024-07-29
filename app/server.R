@@ -84,40 +84,13 @@ function(input, output, session) {
     shiny::updateSelectInput(session = session, inputId = "card7", selected = random_hand$card_name[[7]])
   })
   
-  output$image1 <- shiny::renderUI({
-    img_src <- decklist() |> dplyr::filter(card_name == input$card1) |> dplyr::pull(img_src)
-    shiny::tags$img(src = img_src, alt = "card1", crossorigin = "anonymous", height = 300)
-  })
-
-  output$image2 <- shiny::renderUI({
-    img_src <- decklist() |> dplyr::filter(card_name == input$card2) |> dplyr::pull(img_src)
-    shiny::tags$img(src = img_src, alt = "card2", crossorigin = "anonymous", height = 300)
-  })
-
-  output$image3 <- shiny::renderUI({
-    img_src <- decklist() |> dplyr::filter(card_name == input$card3) |> dplyr::pull(img_src)
-    shiny::tags$img(src = img_src, alt = "card3", crossorigin = "anonymous", height = 300)
-  })
-
-  output$image4 <- shiny::renderUI({
-    img_src <- decklist() |> dplyr::filter(card_name == input$card4) |> dplyr::pull(img_src)
-    shiny::tags$img(src = img_src, alt = "card4", crossorigin = "anonymous", height = 300)
-  })
-
-  output$image5 <- shiny::renderUI({
-    img_src <- decklist() |> dplyr::filter(card_name == input$card5) |> dplyr::pull(img_src)
-    shiny::tags$img(src = img_src, alt = "card5", crossorigin = "anonymous", height = 300)
-  })
-
-  output$image6 <- shiny::renderUI({
-    img_src <- decklist() |> dplyr::filter(card_name == input$card6) |> dplyr::pull(img_src)
-    shiny::tags$img(src = img_src, alt = "card6", crossorigin = "anonymous", height = 300)
-  })
-
-  output$image7 <- shiny::renderUI({
-    img_src <- decklist() |> dplyr::filter(card_name == input$card7) |> dplyr::pull(img_src)
-    shiny::tags$img(src = img_src, alt = "card7", crossorigin = "anonymous", height = 300)
-  })
+  output$image1 <- render_card(decklist(), input, card_index = 1)
+  output$image2 <- render_card(decklist(), input, card_index = 2)
+  output$image3 <- render_card(decklist(), input, card_index = 3)
+  output$image4 <- render_card(decklist(), input, card_index = 4)
+  output$image5 <- render_card(decklist(), input, card_index = 5)
+  output$image6 <- render_card(decklist(), input, card_index = 6)
+  output$image7 <- render_card(decklist(), input, card_index = 7)
   
   test_hand <- shiny::reactive({
     decklist() |> 
