@@ -17,7 +17,7 @@ hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Otawara, Soaring C
 test_that("enabler 1 b + 2 lands that produce u and chrome mox on b",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Otawara, Soaring City", "Agadeem's Awakening"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Otawara, Soaring City", "Agadeem's Awakening // Agadeem, the Undercrypt"))
 test_that("enabler 1 b + 2 lands that produce u and mdfc b land", 
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -25,7 +25,7 @@ hand <- get_hand(testdata, c("Changeling Outcast", "Swamp", "Takenuma, Abandoned
 test_that("enabler 1 b + 2 lands that produce b and chrome mox on u", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Swamp", "Takenuma, Abandoned Mire", "Sink into Stupor"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Swamp", "Takenuma, Abandoned Mire", "Sink into Stupor // Soporific Springs"))
 test_that("enabler 1 b + 2 lands that produce b and mdfc u land", 
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -45,7 +45,7 @@ hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Gemstone Caverns",
 test_that("enabler 1 b + 2 lands where one produce colorless and the other u and chrome mox on b", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Gemstone Caverns", "Agadeem's Awakening"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Gemstone Caverns", "Agadeem's Awakening // Agadeem, the Undercrypt"))
 test_that("enabler 1 b + 2 lands where one produce colorless and the other u and mdfc b land", 
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -53,7 +53,7 @@ hand <- get_hand(testdata, c("Changeling Outcast", "Swamp", "Gemstone Caverns", 
 test_that("enabler 1 b + 2 lands where one produce colorless and the other b and chrome mox on u", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Swamp", "Gemstone Caverns", "Sink into Stupor"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Swamp", "Gemstone Caverns", "Sink into Stupor // Soporific Springs"))
 test_that("enabler 1 b + 2 lands where one produce colorless and the other b and mdfc u land", 
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -61,19 +61,19 @@ hand <- get_hand(testdata, c("Changeling Outcast", "Mutavault", "Gemstone Cavern
 test_that("enabler 1 b + 2 lands where both produce colorless and mox diamond and chrome mox on any color", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Mutavault", "Gemstone Caverns", "Sink into Stupor", "Mox Diamond"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Mutavault", "Gemstone Caverns", "Sink into Stupor // Soporific Springs", "Mox Diamond"))
 test_that("enabler 1 b + 2 lands where both produce colorless and mox diamond and mdfc land", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Mutavault", "Gemstone Caverns", "Sink into Stupor", "Chrome Mox", "Snuff Out"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Mutavault", "Gemstone Caverns", "Sink into Stupor // Soporific Springs", "Chrome Mox", "Snuff Out"))
 test_that("enabler 1 b + 2 lands where both produce colorless and mdfc u land and chrome mox on b", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Mutavault", "Gemstone Caverns", "Agadeem's Awakening", "Chrome Mox", "Force of Will"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Mutavault", "Gemstone Caverns", "Agadeem's Awakening // Agadeem, the Undercrypt", "Chrome Mox", "Force of Will"))
 test_that("enabler 1 b + 2 lands where both produce colorless and mdfc b land and chrome mox on u", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Mutavault", "Gemstone Caverns", "Agadeem's Awakening", "Sink into Stupor"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Mutavault", "Gemstone Caverns", "Agadeem's Awakening // Agadeem, the Undercrypt", "Sink into Stupor // Soporific Springs"))
 test_that("enabler 1 b + 2 lands where both produce colorless and mdfc u land and mdfc b land", 
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -81,7 +81,7 @@ hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Lotus Petal"))
 test_that("no b t1", 
           {expect_false(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Underground Sea", "Agadeem's Awakening"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Underground Sea", "Agadeem's Awakening // Agadeem, the Undercrypt"))
 test_that("enabler 1 b + 1 land that produce ub and mdfc land", 
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -89,11 +89,11 @@ hand <- get_hand(testdata, c("Changeling Outcast", "Swamp", "Chrome Mox", "Force
 test_that("enabler 1 b + 1 land that produce b and chrome mox on u", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Swamp", "Sink into Stupor"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Swamp", "Sink into Stupor // Soporific Springs"))
 test_that("enabler 1 b + 1 land that produce b and mdfc u land", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Swamp", "Mox Diamond", "Agadeem's Awakening"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Swamp", "Mox Diamond", "Agadeem's Awakening // Agadeem, the Undercrypt"))
 test_that("enabler 1 b + 1 land that produce b and mdfc b land", 
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -101,15 +101,15 @@ hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Chrome Mox", "Snuf
 test_that("enabler 1 b + 1 land that produce u and chrome mox on b", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Agadeem's Awakening"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Agadeem's Awakening // Agadeem, the Undercrypt"))
 test_that("enabler 1 b + 1 land that produce u and mdfc b land", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Mox Diamond", "Sink into Stupor"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Mox Diamond", "Sink into Stupor // Soporific Springs"))
 test_that("enabler 1 b + 1 land that produce u and mdfc u land", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Gemstone Caverns", "Agadeem's Awakening", "Sink into Stupor"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Gemstone Caverns", "Agadeem's Awakening // Agadeem, the Undercrypt", "Sink into Stupor // Soporific Springs"))
 test_that("enabler 1 b + 1 land that produce colorless and mdfc u and mdfc b lands", 
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -117,15 +117,15 @@ hand <- get_hand(testdata, c("Changeling Outcast", "Gemstone Caverns", "Mox Diam
 test_that("enabler 1 b + 1 land that produce colorless and mox diamond and chrome mox on any color", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Gemstone Caverns", "Mox Diamond", "Agadeem's Awakening"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Gemstone Caverns", "Mox Diamond", "Agadeem's Awakening // Agadeem, the Undercrypt"))
 test_that("enabler 1 b + 1 land that produce colorless and mox diamond and any mdfc land", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Gemstone Caverns", "Sink into Stupor", "Chrome Mox", "Snuff Out"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Gemstone Caverns", "Sink into Stupor // Soporific Springs", "Chrome Mox", "Snuff Out"))
 test_that("enabler 1 b + 1 land that produce colorless and mdfc u land and chrome mox on b", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Gemstone Caverns", "Agadeem's Awakening", "Chrome Mox", "Force of Will"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Gemstone Caverns", "Agadeem's Awakening // Agadeem, the Undercrypt", "Chrome Mox", "Force of Will"))
 test_that("enabler 1 b + 1 land that produce colorless and mdfc b land and chrome mox on u", 
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -133,11 +133,11 @@ hand <- get_hand(testdata, c("Changeling Outcast", "Lotus Petal", "Chrome Mox", 
 test_that("enabler 1 b + no lands and lotus petal and chrome mox on any color", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Sink into Stupor", "Chrome Mox", "Snuff Out"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Sink into Stupor // Soporific Springs", "Chrome Mox", "Snuff Out"))
 test_that("enabler 1 b + no lands and mdfc u land and chrome mox on b", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Agadeem's Awakening", "Chrome Mox", "Force of Will"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Agadeem's Awakening // Agadeem, the Undercrypt", "Chrome Mox", "Force of Will"))
 test_that("enabler 1 b + no lands and mdfc b land and chrome mox on u", 
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -145,7 +145,7 @@ hand <- get_hand(testdata, c("Changeling Outcast", "Island", "Otawara, Soaring C
 test_that("no card to pitch b", 
           {expect_false(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Mutavault", "Gemstone Caverns", "Agadeem's Awakening", "Lotus Petal"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Mutavault", "Gemstone Caverns", "Agadeem's Awakening // Agadeem, the Undercrypt", "Lotus Petal"))
 test_that("enabler 1 b + mdfc b land and lotus petal", 
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -157,18 +157,18 @@ hand <- get_hand(testdata, c("Changeling Outcast", "Swamp", "Chrome Mox", "Snuff
 test_that("no u", 
           {expect_false(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Lotus Petal", "Agadeem's Awakening"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Lotus Petal", "Agadeem's Awakening // Agadeem, the Undercrypt"))
 test_that("enabler 1 b + no lands and mdfc b land and lotus petal", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Gemstone Caverns", "Agadeem's Awakening", "Lotus Petal"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Gemstone Caverns", "Agadeem's Awakening // Agadeem, the Undercrypt", "Lotus Petal"))
 test_that("enabler 1 b + no color lands and mdfc b land and lotus petal", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Lotus Petal", "Agadeem's Awakening", "Swamp", "Takenuma, Abandoned Mire"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Lotus Petal", "Agadeem's Awakening // Agadeem, the Undercrypt", "Swamp", "Takenuma, Abandoned Mire"))
 test_that("enabler 1 b + b lands and lotus petal", 
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Changeling Outcast", "Agadeem's Awakening", "Sink into Stupor"))
+hand <- get_hand(testdata, c("Changeling Outcast", "Agadeem's Awakening // Agadeem, the Undercrypt", "Sink into Stupor // Soporific Springs"))
 test_that("enabler b + no lands but mdfc b and mdfc u", 
           {expect_true(is_yuriko_on_T2(hand))})

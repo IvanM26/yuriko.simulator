@@ -31,27 +31,27 @@ hand <- get_hand(testdata, c("Mana Crypt", "Mutavault", "Chrome Mox", "Snuff Out
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Boggart Trawler", "Mana Crypt", "Island", "Chrome Mox"))
+hand <- get_hand(testdata, c("Boggart Trawler // Boggart Bog", "Mana Crypt", "Island", "Chrome Mox"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Boggart Trawler", "Mana Crypt", "Island", "Mox Diamond"))
+hand <- get_hand(testdata, c("Boggart Trawler // Boggart Bog", "Mana Crypt", "Island", "Mox Diamond"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Lotus Petal", "Chrome Mox", "Boggart Trawler"))
+hand <- get_hand(testdata, c("Lotus Petal", "Chrome Mox", "Boggart Trawler // Boggart Bog"))
 test_that("no 1ub on t1",
           {expect_false(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Lotus Petal", "Chrome Mox", "Sink into Stupor"))
+hand <- get_hand(testdata, c("Lotus Petal", "Chrome Mox", "Sink into Stupor // Soporific Springs"))
 test_that("no 1ub on t1",
           {expect_false(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Mana Crypt", "Boggart Trawler", "Island"))
+hand <- get_hand(testdata, c("Mana Crypt", "Boggart Trawler // Boggart Bog", "Island"))
 test_that("no 1ub on t1",
           {expect_false(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Dark Ritual", "Boggart Trawler", "Lotus Petal"))
+hand <- get_hand(testdata, c("Dark Ritual", "Boggart Trawler // Boggart Bog", "Lotus Petal"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -59,7 +59,7 @@ hand <- get_hand(testdata, c("Dark Ritual", "Island", "Lotus Petal"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Dark Ritual", "Sink into Stupor", "Lotus Petal"))
+hand <- get_hand(testdata, c("Dark Ritual", "Sink into Stupor // Soporific Springs", "Lotus Petal"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
@@ -83,7 +83,7 @@ hand <- get_hand(testdata, c("Dark Ritual", "Chrome Mox", "Lotus Petal", "Snuff 
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Chrome Mox", "Lotus Petal", "Sink into Stupor"))
+hand <- get_hand(testdata, c("Chrome Mox", "Lotus Petal", "Sink into Stupor // Soporific Springs"))
 test_that("no 1ub on t1",
           {expect_false(is_yuriko_on_T2(hand))})
 
@@ -103,10 +103,10 @@ hand <- get_hand(testdata, c("Mana Crypt", "Island", "Chrome Mox", "Swamp"))
 test_that("no 1ub on t1",
           {expect_false(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Dark Ritual", "Chrome Mox", "Agadeem's Awakening", "Sink into Stupor"))
+hand <- get_hand(testdata, c("Dark Ritual", "Chrome Mox", "Agadeem's Awakening // Agadeem, the Undercrypt", "Sink into Stupor // Soporific Springs"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
 
-hand <- get_hand(testdata, c("Lotus Petal", "Chrome Mox", "Agadeem's Awakening", "Sink into Stupor"))
+hand <- get_hand(testdata, c("Lotus Petal", "Chrome Mox", "Agadeem's Awakening // Agadeem, the Undercrypt", "Sink into Stupor // Soporific Springs"))
 test_that("at least 1ub on t1",
           {expect_true(is_yuriko_on_T2(hand))})
