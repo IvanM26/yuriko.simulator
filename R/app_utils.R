@@ -5,7 +5,7 @@ bold_percentage <- function(value) {
 render_card <- function(decklist, input, card_index, card_height = 250) {
   shiny::renderUI({
     img_src <- decklist |>
-      dplyr::filter(card_name == input[[glue::glue("card{ card_index }")]]) |> 
+      dplyr::filter(card_name_scryfall == input[[glue::glue("card{ card_index }")]]) |> 
       dplyr::pull(img_src)
     
     shiny::tags$img(

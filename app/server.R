@@ -9,7 +9,7 @@ function(input, output, session) {
   
   output$table_decklist <- reactable::renderReactable({
     decklist() |> 
-      dplyr::select(card_name) |> 
+      dplyr::select(card_name_scryfall) |> 
       reactable::reactable()
   })
   
@@ -17,7 +17,7 @@ function(input, output, session) {
     shiny::updateSelectInput(
       session = session,
       inputId = "fixed_cards",
-      choices = decklist()$card_name,
+      choices = decklist()$card_name_scryfall,
       selected = NULL
     )
   })
@@ -64,24 +64,24 @@ function(input, output, session) {
   })
 
   shiny::observeEvent(decklist(), {
-    shiny::updateSelectInput(session = session, inputId = "card1", choices = decklist()$card_name, selected = decklist()$card_name[[1]])
-    shiny::updateSelectInput(session = session, inputId = "card2", choices = decklist()$card_name, selected = decklist()$card_name[[2]])
-    shiny::updateSelectInput(session = session, inputId = "card3", choices = decklist()$card_name, selected = decklist()$card_name[[3]])
-    shiny::updateSelectInput(session = session, inputId = "card4", choices = decklist()$card_name, selected = decklist()$card_name[[4]])
-    shiny::updateSelectInput(session = session, inputId = "card5", choices = decklist()$card_name, selected = decklist()$card_name[[5]])
-    shiny::updateSelectInput(session = session, inputId = "card6", choices = decklist()$card_name, selected = decklist()$card_name[[6]])
-    shiny::updateSelectInput(session = session, inputId = "card7", choices = decklist()$card_name, selected = decklist()$card_name[[7]])
+    shiny::updateSelectInput(session = session, inputId = "card1", choices = decklist()$card_name_scryfall, selected = decklist()$card_name_scryfall[[1]])
+    shiny::updateSelectInput(session = session, inputId = "card2", choices = decklist()$card_name_scryfall, selected = decklist()$card_name_scryfall[[2]])
+    shiny::updateSelectInput(session = session, inputId = "card3", choices = decklist()$card_name_scryfall, selected = decklist()$card_name_scryfall[[3]])
+    shiny::updateSelectInput(session = session, inputId = "card4", choices = decklist()$card_name_scryfall, selected = decklist()$card_name_scryfall[[4]])
+    shiny::updateSelectInput(session = session, inputId = "card5", choices = decklist()$card_name_scryfall, selected = decklist()$card_name_scryfall[[5]])
+    shiny::updateSelectInput(session = session, inputId = "card6", choices = decklist()$card_name_scryfall, selected = decklist()$card_name_scryfall[[6]])
+    shiny::updateSelectInput(session = session, inputId = "card7", choices = decklist()$card_name_scryfall, selected = decklist()$card_name_scryfall[[7]])
   })
   
   shiny::observeEvent(input$random_hand, {
     random_hand <- draw_seven(decklist())
-    shiny::updateSelectInput(session = session, inputId = "card1", selected = random_hand$card_name[[1]])
-    shiny::updateSelectInput(session = session, inputId = "card3", selected = random_hand$card_name[[2]])
-    shiny::updateSelectInput(session = session, inputId = "card4", selected = random_hand$card_name[[3]])
-    shiny::updateSelectInput(session = session, inputId = "card2", selected = random_hand$card_name[[4]])
-    shiny::updateSelectInput(session = session, inputId = "card5", selected = random_hand$card_name[[5]])
-    shiny::updateSelectInput(session = session, inputId = "card6", selected = random_hand$card_name[[6]])
-    shiny::updateSelectInput(session = session, inputId = "card7", selected = random_hand$card_name[[7]])
+    shiny::updateSelectInput(session = session, inputId = "card1", selected = random_hand$card_name_scryfall[[1]])
+    shiny::updateSelectInput(session = session, inputId = "card3", selected = random_hand$card_name_scryfall[[2]])
+    shiny::updateSelectInput(session = session, inputId = "card4", selected = random_hand$card_name_scryfall[[3]])
+    shiny::updateSelectInput(session = session, inputId = "card2", selected = random_hand$card_name_scryfall[[4]])
+    shiny::updateSelectInput(session = session, inputId = "card5", selected = random_hand$card_name_scryfall[[5]])
+    shiny::updateSelectInput(session = session, inputId = "card6", selected = random_hand$card_name_scryfall[[6]])
+    shiny::updateSelectInput(session = session, inputId = "card7", selected = random_hand$card_name_scryfall[[7]])
   })
   
   output$image1 <- render_card(decklist(), input, card_index = 1)
@@ -94,7 +94,7 @@ function(input, output, session) {
   
   test_hand <- shiny::reactive({
     decklist() |> 
-      dplyr::filter(card_name %in% c(input$card1, input$card2, input$card3, input$card4, input$card5, input$card6, input$card7))
+      dplyr::filter(card_name_scryfall %in% c(input$card1, input$card2, input$card3, input$card4, input$card5, input$card6, input$card7))
   })
   
   output$test_hand_output <- shiny::renderUI({
