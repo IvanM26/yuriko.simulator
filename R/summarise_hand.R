@@ -33,10 +33,10 @@ summarise_hand <- function(opening_hand){
     "n_cards_u" = opening_hand$color_u |> sum(),
     "n_cards_b" = opening_hand$color_b |> sum(),
 
-    "chrome_mox"  = "Chrome Mox"  %in% opening_hand$card_name,
-    "dark_ritual" = "Dark Ritual" %in% opening_hand$card_name,
-    "lotus_petal" = "Lotus Petal" %in% opening_hand$card_name,
-    "mana_crypt"  = "Mana Crypt"  %in% opening_hand$card_name,
-    "mox_diamond" = "Mox Diamond" %in% opening_hand$card_name
+    "chrome_mox"  = opening_hand$chrome_mox  |> sum(),
+    "dark_ritual" = opening_hand$dark_ritual |> sum(),
+    "lotus_petal" = opening_hand$lotus_petal |> sum(),
+    "mana_crypt"  = opening_hand$mana_crypt  |> sum(),
+    "mox_diamond" = opening_hand$mox_diamond |> sum()
   )
 }
