@@ -4,7 +4,7 @@ function(input, output, session) {
   options(cli.progress_show_after = 0)
 
   decklist <- shiny::eventReactive(input$upload_decklist, {
-    process_card_data(input$upload_decklist$datapath, use_httr = FALSE)
+    process_card_data(input$user_file$datapath, use_httr = FALSE)
   })
   
   output$table_decklist <- reactable::renderReactable({
