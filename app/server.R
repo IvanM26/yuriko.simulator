@@ -13,8 +13,7 @@ function(input, output, session) {
     process_card_data(
       decklist_source = input$decklist_source,
       source_path = input_source_path,
-      use_httr = TRUE # DEV
-      # use_httr = FALSE # PROD
+      use_httr = FALSE # Change to TRUE in DEV
     )
 
   })
