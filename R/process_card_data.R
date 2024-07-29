@@ -1,35 +1,17 @@
 #' @export
 process_card_data <- function(decklist_source, source_path, use_httr) {
-  parse_decklist(decklist_source, source_path, use_httr) |> 
+  parse_decklist(decklist_source, source_path) |> 
     add_scryfall_data(use_httr) |> 
     add_custom_attributes()
 }
 
-parse_decklist <- function(decklist_source, source_path, use_httr) {
+parse_decklist <- function(decklist_source, source_path) {
   
   if (decklist_source == "moxfield_url") {
-
-    url <- source_path |> 
-      stringr::str_replace("https://www.moxfield.com/decks", "https://api.moxfield.com/v2/decks/all")
     
-    if (use_httr) {
-      
-      moxfield_json <- url |> 
-        jsonlite::fromJSON(flatten = TRUE)
-      
-    } else {
-      
-      # httr does not work with shinylive
-      temp_json <- tempfile(fileext = ".json")
-
-      # Download the JSON file
-      download.file(url, temp_json)
-      
-      # Parse JSON content
-      moxfield_json <- temp_json |> 
-        jsonlite::fromJSON(flatten = TRUE)
-      
-    }
+    moxfield_json <- source_path |> 
+      stringr::str_replace("https://www.moxfield.com/decks", "https://api.moxfield.com/v2/decks/all") |> 
+      jsonlite::fromJSON(flatten = TRUE)
     
     tibble::tibble(
       card_name_source = names(moxfield_json$mainboard) |> sort()
