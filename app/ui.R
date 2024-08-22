@@ -2,8 +2,10 @@ shiny::tagList(
   shiny::tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")
   ),
+  shinyjs::useShinyjs(),
   bslib::page_navbar(
     title = "Yuriko Simulator",
+    fillable = c("Your Decklist"),
     bslib::nav_panel(
       title = "Your Decklist",
       bslib::layout_sidebar(
@@ -125,6 +127,364 @@ shiny::tagList(
     ),
     bslib::nav_panel(
       title = "Group Counts",
+      bslib::card(
+        bslib::card_header("Decklist Composition Summary"),
+        bslib::layout_columns(
+          bslib::value_box(
+            title = "Cards in Deck",
+            value = shiny::textOutput(outputId = "box_value_n_cards_in_deck")
+          ),
+          bslib::value_box(
+            id = "box_n_missing_excess",
+            title = shiny::textOutput(outputId = "box_title_missing_excess"),
+            value = shiny::textOutput(outputId = "box_value_n_missing_excess"),
+            class = "text-light"
+          ),
+          bslib::value_box(
+            title = shiny::span(
+              "Enablers",
+              # TODO: Don't center tooltip
+              bslib::tooltip(
+                trigger = bsicons::bs_icon("info-circle"),
+                shiny::htmlOutput(outputId = "box_title_n_enablers_tooltip")
+              )
+            ),
+            value = shiny::textOutput(outputId = "box_value_n_enablers")
+          ),
+          bslib::value_box(
+            title = shiny::span(
+              "Lands",
+              bslib::tooltip(
+                trigger = bsicons::bs_icon("info-circle"),
+                shiny::htmlOutput(outputId = "box_title_n_lands_tooltip")
+              )
+            ),
+            value = shiny::textOutput(outputId = "box_value_n_lands"),
+            shiny::span(shiny::em("(", shiny::textOutput(outputId = "box_value_n_lands_including_mdfc", inline = TRUE), "including MDFC )"))
+          ),
+          bslib::value_box(
+            title = shiny::htmlOutput(outputId = "box_title_fast_mana"),
+            value = shiny::textOutput(outputId = "box_value_n_fast_mana")
+          )
+        )
+      ),
+      bslib::navset_card_tab(
+        bslib::nav_panel(
+          title = "Allocate Cards",
+          bslib::card(
+            bslib::card_header(
+              bslib::tooltip(
+                trigger = list(
+                  "Non-MDFC Enablers",
+                  bsicons::bs_icon("info-circle")
+                ),
+                "An Enabler is a Creature you cast on Turn 1 and then use to Ninjutsu Yuriko onto the battlefield on Turn 2. MDFC Enablers (such as Boggart Trawler) are allocated in a different section."
+              )
+            ),
+            bslib::layout_columns(
+              custom_autonumericInput(
+                inputId = "enablers_0",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {0}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Ornithopter"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "enablers_c",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {1} or {X}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Universal Automaton; Stonecoil Serpent"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "enablers_u",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {U} or {X}{U}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Mothdust Changeling; Ingenious Prodigy"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "enablers_b",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {B}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Changeling Outcast"
+                )
+              )
+            ),
+            bslib::layout_columns(
+              col_widths = c(3, 3, 3, -3),
+              custom_autonumericInput(
+                inputId = "enablers_cc",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {2}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Metallic Mimic"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "enablers_1u",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {1}{U}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Moon-Circuit Hacker"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "enablers_1b",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {1}{B}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Inkrise Infiltrator"
+                )
+              )
+            ),
+            bslib::layout_columns(
+              col_widths = c(3, 3, 3, -3),
+              custom_autonumericInput(
+                inputId = "enablers_uu",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {U}{U}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Thassa's Oracle"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "enablers_bb",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {B}{B}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Nether Traitor"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "enablers_ub",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {U}{B}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Satoru, the Infiltrator"
+                )
+              )
+            ),
+            bslib::layout_columns(
+              col_widths = c(3, 3, -3, -3),
+              custom_autonumericInput(
+                inputId = "enablers_2u",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {2}{U}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Mist-Syndicate Naga"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "enablers_2b",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {2}{B}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Opposition Agent"
+                )
+              )
+            )
+          ),
+          bslib::layout_columns(
+            bslib::card(
+              bslib::card_header("Lands"),
+              custom_autonumericInput(
+                inputId = "lands_c",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Only Produce {C}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Mutavault"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "lands_u",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Only Produce {U}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Island; Otawara, the Soaring City"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "lands_b",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Only Produce {B}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Swamp; Takenuma, Abandoned Mire"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "lands_ub",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Produce {U} or {B} (or Fetchlands)",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Underground Sea; Polluted Delta"
+                )
+              )
+            ),
+            bslib::card(
+              bslib::card_header("MDFC Cards"),
+              custom_autonumericInput(
+                inputId = "mdfc_enablers_2u",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "MDFC Enabler with Mana Cost {2}{U}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Hydroelectric Specimen"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "mdfc_enablers_2b",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "MDFC Enabler with Mana Cost {2}{B}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Boggart Trawler"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "mdfc_lands_b",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Non-Enabler MDFC that Only Produce {B}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Agadeem's Awakening"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "mdfc_lands_u",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Non-Enabler MDFC that Only Produce {U}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Sea Gate Restoration"
+                )
+              )
+            ),
+            bslib::card(
+              bslib::card_header(
+                bslib::tooltip(
+                  trigger = list(
+                    "Fast Mana",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "Select the cards that you want to include in the deck."
+                )
+              ),
+              shiny::checkboxInput(
+                inputId = "include_dark_ritual",
+                label = "Dark Ritual"
+              ),
+              shiny::checkboxInput(
+                inputId = "include_chrome_mox",
+                label = "Chrome Mox"
+              ),
+              shiny::checkboxInput(
+                inputId = "include_lotus_petal",
+                label = "Lotus Petal"
+              ),
+              shiny::checkboxInput(
+                inputId = "include_mana_crypt",
+                label = "Mana Crypt"
+              ),
+              shiny::checkboxInput(
+                inputId = "include_mox_diamond",
+                label = "Mox Diamond"
+              )
+            ),
+            bslib::card(
+              bslib::card_header(
+                bslib::tooltip(
+                  trigger = list(
+                    "Other Cards",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "Allocate missing cards based on their color(s). This will only impact the simulation when Chrome Mox is in the deck."
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "others_c",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Colorless",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Cursed Totem"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "others_u",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mono {U}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Force of Will"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "others_b",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mono {B}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Snuff Out"
+                )
+              ),
+              custom_autonumericInput(
+                inputId = "others_ub",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "{U}{B}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Fallen Shinobi; Consign//Oblivion"
+                )
+              )
+            )
+          )
+        )
+      )
     ),
     bslib::nav_panel(
       title = "About"

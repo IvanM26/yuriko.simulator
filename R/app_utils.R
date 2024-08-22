@@ -16,3 +16,14 @@ render_card <- function(decklist, input, card_index, card_height = 250) {
     )
   })
 }
+
+custom_autonumericInput <- function(inputId, label) {
+  shinyWidgets::autonumericInput(
+    inputId,
+    label,
+    value = 0,
+    decimalPlaces = 0,
+    emptyInputBehavior = "0",
+    width = "100%"
+  )
+}

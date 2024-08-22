@@ -122,4 +122,171 @@ function(input, output, session) {
     }
   })
   
+  n_enablers_mv_1 <- shiny::reactive({
+    input$enablers_c + 
+      input$enablers_u + 
+      input$enablers_b
+  })
+  
+  n_enablers_mv_2 <- shiny::reactive({
+    input$enablers_cc +
+      input$enablers_1u +
+      input$enablers_1b +
+      input$enablers_uu +
+      input$enablers_bb +
+      input$enablers_ub    
+  })
+  
+  n_enablers_mv_3 <- shiny::reactive({
+    input$enablers_2u +
+      input$enablers_2b 
+  })
+  
+  n_mdfc_enablers_mv_3 <- shiny::reactive({
+    input$mdfc_enablers_2u +
+      input$mdfc_enablers_2b
+  })
+  
+  n_enablers <- shiny::reactive({
+    input$enablers_0 +
+      n_enablers_mv_1() +
+      n_enablers_mv_2() +
+      n_enablers_mv_3() +
+      n_mdfc_enablers_mv_3()
+  })
+  
+  n_lands <- shiny::reactive({
+    input$lands_c +
+      input$lands_u +
+      input$lands_b +
+      input$lands_ub
+  })
+  
+  # Don't include mdfc enablers
+  n_mdfc_lands <- shiny::reactive({
+    input$mdfc_lands_b +
+      input$mdfc_lands_u
+  })
+
+  n_others <- shiny::reactive({
+    input$others_c +
+      input$others_u +
+      input$others_b +
+      input$others_ub
+  })
+  
+  n_fast_mana <- shiny::reactive({
+    input$include_dark_ritual +
+      input$include_chrome_mox +
+      input$include_lotus_petal +
+      input$include_mana_crypt +
+      input$include_mox_diamond
+  })
+  
+  n_cards_in_deck <- shiny::reactive({
+    n_enablers() +
+      n_lands() +
+      n_mdfc_lands() +
+      n_others() +
+      n_fast_mana()
+  })
+
+  output$box_value_n_cards_in_deck <- shiny::renderText({
+    n_cards_in_deck()
+  })
+  
+  n_missing_excess <- shiny::reactive({
+    99 - n_cards_in_deck()
+  })
+  
+  output$box_title_missing_excess <- shiny::renderText({
+    if (n_missing_excess() >= 0) {
+      "Missing Cards"
+    } else {
+      "Excess Cards"
+    }
+  })
+  
+  output$box_value_n_missing_excess <- shiny::renderText({
+    abs(n_missing_excess())
+  })
+  
+  shiny::observeEvent(n_missing_excess(), {
+    if (n_missing_excess() == 0) {
+      shinyjs::removeClass(id = "box_n_missing_excess", class = "bg-danger")
+      shinyjs::addClass(id = "box_n_missing_excess",class = "bg-success")
+    } else if (n_missing_excess() != 0){
+      shinyjs::removeClass(id = "box_n_missing_excess", class = "bg-success")
+      shinyjs::addClass(id = "box_n_missing_excess",class = "bg-danger")
+    }
+  })
+  
+  output$box_value_n_enablers <- shiny::renderText({
+    n_enablers()
+  })
+  
+  output$box_title_n_enablers_tooltip <- shiny::renderUI({
+    shiny::tagList(
+      shiny::p("Distributed as follows:"),
+      shiny::tags$ul(
+        shiny::tags$li(glue::glue("MV 0: { input$enablers_0 }")),
+        shiny::tags$li(glue::glue("MV 1: { n_enablers_mv_1() }")),
+        shiny::tags$li(glue::glue("MV 2: { n_enablers_mv_2() }")),
+        shiny::tags$li(glue::glue("MV 3: { n_enablers_mv_3() + n_mdfc_enablers_mv_3() }"))
+      ),
+      shiny::p("MDFC Enablers are included.")
+    )
+  })
+  
+  output$box_value_n_lands <- shiny::renderText({
+    n_lands()
+  })
+  
+  output$box_title_n_lands_tooltip <- shiny::renderUI({
+    shiny::tagList(
+      shiny::p("Distributed as follows:"),
+      shiny::tags$ul(
+        shiny::tags$li(glue::glue("Only Produce C: { input$lands_c }")),
+        shiny::tags$li(glue::glue("Only Produce U: { input$lands_u } ({ input$lands_u + input$mdfc_lands_u + input$mdfc_enablers_2u } including MDFC)")),
+        shiny::tags$li(glue::glue("Only Produce B: { input$lands_b } ({ input$lands_b + input$mdfc_lands_b + input$mdfc_enablers_2b } including MDFC)")),
+        shiny::tags$li(glue::glue("Produce UB: { input$lands_ub }. Fetchlands are included here.")),
+      )
+    )
+  })
+  
+  output$box_value_n_lands_including_mdfc <- shiny::renderText({
+    n_lands() +
+      n_mdfc_lands() +
+      n_mdfc_enablers_mv_3()
+  })
+  
+  output$box_title_fast_mana <- shiny::renderUI({
+    
+    if (n_fast_mana() == 0) {
+      "Fast Mana"
+    } else {
+      
+      shiny::span(
+        "Fast Mana",
+        bslib::tooltip(
+          trigger = bsicons::bs_icon("info-circle"),
+          shiny::tagList(
+            shiny::p("Selected cards:"),
+            shiny::tags$ul(
+              if (input$include_dark_ritual) shiny::tags$li("Dark Ritual"),
+              if (input$include_chrome_mox) shiny::tags$li("Chrome Mox"),
+              if (input$include_lotus_petal) shiny::tags$li("Lotus Petal"),
+              if (input$include_mana_crypt) shiny::tags$li("Mana Crypt"),
+              if (input$include_mox_diamond) shiny::tags$li("Mox Diamond")
+            )
+          )
+        )
+      )
+    }
+  })
+  
+  output$box_value_n_fast_mana <- shiny::renderText({
+    n_fast_mana()
+  })
+  
 }
