@@ -47,6 +47,7 @@ shiny::tagList(
         bslib::navset_card_tab(
           bslib::nav_panel(
             title = "Decklist Stats",
+            shiny::tableOutput(outputId = "decklist_stats_table")
           ),
           bslib::nav_panel(
             title = "Simulate",

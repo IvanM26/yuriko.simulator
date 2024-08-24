@@ -18,11 +18,96 @@ function(input, output, session) {
 
   })
   
-  output$table_decklist <- reactable::renderReactable({
+  output$decklist_stats_table <- shiny::renderTable({
+    shiny::req(decklist())
+    
     decklist() |> 
-      dplyr::select(card_name_scryfall) |> 
-      reactable::reactable()
-  })
+      dplyr::left_join(
+        dplyr::select(get_group_attributes(), -card_name_scryfall)
+      ) |> 
+      dplyr::select(card_name_scryfall, group) |> 
+      dplyr::mutate(
+        `Group Class` = dplyr::case_when(
+          stringr::str_starts(group, "enabler") ~ "Non-MDFC Enabler",
+          stringr::str_starts(group, "land") ~ "Land",
+          stringr::str_starts(group, "mdfc") ~ "MDFC Card",
+          stringr::str_starts(group, "other") ~ "Other",
+          group %in% c("dark_ritual", "chrome_mox", "lotus_petal", "mana_crypt", "mox_diamond") ~ "Fast Mana"
+        ) |> 
+          factor(
+            levels = c(
+              "Non-MDFC Enabler",
+              "Land",
+              "MDFC Card",
+              "Fast Mana",
+              "Other"
+            )
+          ),
+        Group = dplyr::case_when(
+          group == "enabler_0" ~ "Mana Cost {0}",
+          group == "enabler_c" ~ "Mana Cost {1} or {X}",
+          group == "enabler_u" ~ "Mana Cost {U} or {X}{U}",
+          group == "enabler_b" ~ "Mana Cost {B}",
+          group == "enabler_cc" ~ "Mana Cost {2}",
+          group == "enabler_1u" ~ "Mana Cost {1}{U}",
+          group == "enabler_1b" ~ "Mana Cost {1}{B}",
+          group == "enabler_uu" ~ "Mana Cost {U}{U}",
+          group == "enabler_bb" ~ "Mana Cost {B}{B}",
+          group == "enabler_ub" ~ "Mana Cost {U}{B}",
+          group == "enabler_2u" ~ "Mana Cost {2}{U}",
+          group == "enabler_2b" ~ "Mana Cost {2}{B}",
+          group == "land_c" ~ "Only Produce {C}",
+          group == "land_u" ~ "Only Produce {U}",
+          group == "land_b" ~ "Only Produce {B}",
+          group == "land_ub" ~ "Produce {U} or {B} (or Fetchland)",
+          group == "mdfc_enabler_2u" ~ "MDFC Enabler with Mana Cost {2}{U}",
+          group == "mdfc_enabler_2b" ~ "MDFC Enabler with Mana Cost {2}{B}",
+          group == "mdfc_land_u" ~ "Non-Enabler MDFC that Only Produce {B}",
+          group == "mdfc_land_b" ~ "Non-Enabler MDFC that Only Produce {U}",
+          group == "dark_ritual" ~ "Fast Mana",
+          group == "chrome_mox" ~ "Fast Mana",
+          group == "lotus_petal" ~ "Fast Mana",
+          group == "mana_crypt" ~ "Fast Mana",
+          group == "mox_diamond" ~ "Fast Mana",
+          group == "other_c" ~ "Colorless",
+          group == "other_u" ~ "Mono {U}",
+          group == "other_b" ~ "Mono {B}",
+          group == "other_ub" ~ "{U}{B}"
+        ) |> 
+          factor(
+            levels = c(
+              "Mana Cost {0}",
+              "Mana Cost {1} or {X}",
+              "Mana Cost {U} or {X}{U}",
+              "Mana Cost {B}",
+              "Mana Cost {2}",
+              "Mana Cost {1}{U}",
+              "Mana Cost {1}{B}",
+              "Mana Cost {U}{U}",
+              "Mana Cost {B}{B}",
+              "Mana Cost {U}{B}",
+              "Mana Cost {2}{U}",
+              "Mana Cost {2}{B}",
+              "Only Produce {C}",
+              "Only Produce {U}",
+              "Only Produce {B}",
+              "Produce {U} or {B} (or Fetchland)",
+              "MDFC Enabler with Mana Cost {2}{U}",
+              "MDFC Enabler with Mana Cost {2}{B}",
+              "Non-Enabler MDFC that Only Produce {B}",
+              "Non-Enabler MDFC that Only Produce {U}",
+              "Fast Mana",
+              "Colorless",
+              "Mono {U}",
+              "Mono {B}",
+              "{U}{B}"
+            )
+          )
+      ) |> 
+
+      dplyr::group_by(`Group Class`, Group) |> 
+      dplyr::summarise( `N Cards` = dplyr::n(), `Cards` = paste0(card_name_scryfall, collapse = ",<br>"))
+  }, striped = TRUE, sanitize.text.function = identity)
   
   shiny::observeEvent(decklist(), {
     shiny::updateSelectInput(
