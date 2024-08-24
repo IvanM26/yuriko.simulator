@@ -179,6 +179,7 @@ add_custom_attributes <- function(card_data) {
       enabler_u = is_enabler_u(enabler_1, mana_cost),
       enabler_b = is_enabler_b(enabler_1, mana_cost),
 
+      enabler_cc = is_enabler_cc(enabler_2, mana_cost),
       enabler_1u = is_enabler_1u(enabler_2, mana_cost),
       enabler_1b = is_enabler_1b(enabler_2, mana_cost),
       enabler_uu = is_enabler_uu(enabler_2, mana_cost),

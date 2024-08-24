@@ -18,6 +18,7 @@ summarise_hand <- function(opening_hand){
     "n_enablers_u" = opening_hand$enabler_u |> sum(),
     "n_enablers_b" = opening_hand$enabler_b |> sum(),
 
+    "n_enablers_cc" = opening_hand$enabler_cc |> sum(),
     "n_enablers_1u" = opening_hand$enabler_1u |> sum(),
     "n_enablers_1b" = opening_hand$enabler_1b |> sum(),
     "n_enablers_uu" = opening_hand$enabler_uu |> sum(),

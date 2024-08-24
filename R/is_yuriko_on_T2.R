@@ -81,6 +81,18 @@ is_yuriko_on_T2 <- function(opening_hand){
           ) return(TRUE)
       }
       
+      # > COLORLESS ####
+      if (hand_metrics$n_enablers_cc >= 1){
+        if (hand_metrics$mana_crypt) {
+          if (hand_produces_ub(hand_metrics)) return(TRUE)
+        }
+        
+        if (
+          hand_produces_ub_and_two_mana_T1(hand_metrics, "B ON T1") |
+          hand_produces_ub_and_two_mana_T1(hand_metrics, "U ON T1")
+        ) return(TRUE)
+        
+      }
       
     }
     # ENABLER 3 ####

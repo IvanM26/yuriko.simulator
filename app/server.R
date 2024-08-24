@@ -302,6 +302,7 @@ function(input, output, session) {
         "enabler_ub"      = input$enablers_ub,
         "enabler_1b"      = input$enablers_1b,
         "enabler_1u"      = input$enablers_1u,
+        "enabler_cc"      = input$enablers_cc,
         "enabler_2b"      = input$enablers_2b,
         "enabler_2u"      = input$enablers_2u,
         "mdfc_enabler_2b" = input$mdfc_enablers_2b,

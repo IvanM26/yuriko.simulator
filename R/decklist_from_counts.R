@@ -19,6 +19,7 @@ get_group_attributes <- function() {
     "enabler_ub"     , "normal"   , ""                    , ""           ,    2, "{U}{B}"  , "Creature"        , ""            ,
     "enabler_1b"     , "normal"   , ""                    , ""           ,    2, "{1}{B}"  , "Creature"        , ""            ,
     "enabler_1u"     , "normal"   , ""                    , ""           ,    2, "{1}{U}"  , "Creature"        , ""            ,
+    "enabler_cc"     , "normal"   , ""                    , ""           ,    2, "{2}"     , "Creature"        , ""            ,
     "enabler_2b"     , "normal"   , ""                    , ""           ,    3, "{2}{B}"  , "Creature"        , ""            ,
     "enabler_2u"     , "normal"   , ""                    , ""           ,    3, "{2}{U}"  , "Creature"        , ""            ,
     "mdfc_enabler_2b", "modal_dfc", ""                    , ""           ,    3, "{2}{B}"  , "Creature // Land", "B"           ,

@@ -33,6 +33,10 @@ is_enabler_2 <- function(is_enabler, cmc) {
   is_enabler & cmc == 2
 }
 
+is_enabler_cc <- function(is_enabler_2, mana_cost) {
+  is_enabler_2 & grepl("{2}", mana_cost, fixed = TRUE)
+}
+
 is_enabler_1u <- function(is_enabler_2, mana_cost) {
   is_enabler_2 & grepl("{1}{U}", mana_cost, fixed = TRUE)
 }
