@@ -15,7 +15,10 @@ shiny::tagList(
           shiny::selectInput(
             inputId = "decklist_source",
             label = "Select Source",
-            choices = c("Moxfield URL" = "moxfield_url", "File" = "file")
+            choices = c(
+              # "Moxfield URL" = "moxfield_url", # Doesn't work in shinylive
+              "File" = "file"
+            )
           ),
           shiny::div(
             shiny::conditionalPanel(
