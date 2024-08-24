@@ -290,4 +290,77 @@ function(input, output, session) {
     n_fast_mana()
   })
   
+  prob_from_counts <- shiny::eventReactive(input$simulate_from_counts, {
+    decklist <- decklist_from_counts(
+      list(
+        "enabler_0"       = input$enablers_0,
+        "enabler_b"       = input$enablers_b,
+        "enabler_u"       = input$enablers_u,
+        "enabler_c"       = input$enablers_c,
+        "enabler_bb"      = input$enablers_bb,
+        "enabler_uu"      = input$enablers_uu,
+        "enabler_ub"      = input$enablers_ub,
+        "enabler_1b"      = input$enablers_1b,
+        "enabler_1u"      = input$enablers_1u,
+        "enabler_2b"      = input$enablers_2b,
+        "enabler_2u"      = input$enablers_2u,
+        "mdfc_enabler_2b" = input$mdfc_enablers_2b,
+        "mdfc_enabler_2u" = input$mdfc_enablers_2u,
+        "land_b"          = input$lands_b,
+        "land_u"          = input$lands_u,
+        "land_c"          = input$lands_c,
+        "land_ub"         = input$lands_ub,
+        "mdfc_land_b"     = input$mdfc_lands_b,
+        "mdfc_land_u"     = input$mdfc_lands_u,
+        "other_b"         = input$others_b,
+        "other_u"         = input$others_u,
+        "other_c"         = input$others_c,
+        "other_ub"        = input$others_ub,
+        "dark_ritual"     = input$include_dark_ritual,
+        "chrome_mox"      = input$include_chrome_mox,
+        "lotus_petal"     = input$include_lotus_petal,
+        "mana_crypt"      = input$include_mana_crypt,
+        "mox_diamond"     = input$include_mox_diamond
+      )
+    )
+    
+    run_simulation(decklist, n_sim = input$n_sim_from_counts)
+  })
+  
+  simulation_summary_from_counts_html <- shiny::eventReactive(prob_from_counts(), {
+    
+    prob_first_two_hands <- 1 - (1 - prob_from_counts()) ^ 2
+    prob_first_three_hands <- 1 - (1 - prob_from_counts()) ^ 3
+    prob_first_four_hands <- 1 - (1 - prob_from_counts()) ^ 4
+    
+    shiny::div(
+      shiny::tags$ul(
+        shiny::tags$li(shiny::HTML(glue::glue("{ shiny::strong( scales::label_comma()(input$n_sim_from_counts) ) } random 7-card hands were drawn from { shiny::strong('Custom Decklist') }"))),
+        shiny::tags$li(shiny::HTML(glue::glue("{ bold_percentage(prob_from_counts()) } of the hands drawn had enough cards to trigger Yuriko on turn two")))
+      ),
+      
+      shiny::div(
+        "Based on that value, it is expected that enough cards to trigger Yuriko on turn two will be present in:",
+        shiny::tags$ul(
+          shiny::tags$li(shiny::HTML(glue::glue("one of the first two hands drawn in { bold_percentage(prob_first_two_hands) } of matches"))),
+          shiny::tags$li(shiny::HTML(glue::glue("one of the first three hands drawn in { bold_percentage(prob_first_three_hands) }  of matches"))),
+          shiny::tags$li(shiny::HTML(glue::glue("one of the first four hands drawn in { bold_percentage(prob_first_four_hands) }  of matches"))),
+        ),
+        "Then, assuming a \"free\" mulligan we can say that:",
+        shiny::tags$ul(
+          shiny::tags$li(shiny::HTML(glue::glue("in { bold_percentage(prob_first_two_hands) } of matches a { shiny::strong('7-card') } hand will have enough cards to trigger Yuriko on turn two (i.e. considering at most one mulligan)"))),
+          shiny::tags$li(shiny::HTML(glue::glue("in { bold_percentage(prob_first_three_hands) } of matches a hand with { shiny::strong('at least 6 cards') } will have enough cards to trigger Yuriko on turn two (i.e. considering at most two mulligans)"))),
+          shiny::tags$li(shiny::HTML(glue::glue("in { bold_percentage(prob_first_four_hands) } of matches a hand with { shiny::strong('at least 5 cards') } will have enough cards to trigger Yuriko on turn two (i.e. considering at most three mulligans)"))),
+        )
+      )
+      
+      
+    )
+    
+  })
+  
+  output$simulation_summary_from_counts <- shiny::renderUI({
+    simulation_summary_from_counts_html()
+  })
+
 }

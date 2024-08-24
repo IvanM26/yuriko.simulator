@@ -485,6 +485,29 @@ shiny::tagList(
               )
             )
           )
+        ),
+        bslib::nav_panel(
+          title = "Simulate",
+          bslib::layout_sidebar(
+            sidebar = bslib::sidebar(
+              width = 400,
+              shiny::numericInput(
+                inputId = "n_sim_from_counts",
+                label = "Number of Hands to Draw",
+                min = 1000,
+                value = 1000,
+                step = 1
+              ),
+              shiny::actionButton(
+                inputId = "simulate_from_counts",
+                label = "Run Simulation"
+              )
+            ),
+            bslib::card(
+              bslib::card_header("Simulation Results"),
+              shiny::uiOutput("simulation_summary_from_counts")
+            )
+          )
         )
       )
     ),
