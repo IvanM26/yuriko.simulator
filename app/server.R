@@ -279,7 +279,8 @@ function(input, output, session) {
               if (input$include_mana_crypt) shiny::tags$li("Mana Crypt"),
               if (input$include_mox_diamond) shiny::tags$li("Mox Diamond")
             )
-          )
+          ),
+          options = list(customClass = "left-and-full-width")
         )
       )
     }

@@ -143,10 +143,10 @@ shiny::tagList(
           bslib::value_box(
             title = shiny::span(
               "Enablers",
-              # TODO: Don't center tooltip
               bslib::tooltip(
                 trigger = bsicons::bs_icon("info-circle"),
-                shiny::htmlOutput(outputId = "box_title_n_enablers_tooltip")
+                shiny::htmlOutput(outputId = "box_title_n_enablers_tooltip"),
+                options = list(customClass = "left-and-full-width")
               )
             ),
             value = shiny::textOutput(outputId = "box_value_n_enablers")
@@ -156,7 +156,8 @@ shiny::tagList(
               "Lands",
               bslib::tooltip(
                 trigger = bsicons::bs_icon("info-circle"),
-                shiny::htmlOutput(outputId = "box_title_n_lands_tooltip")
+                shiny::htmlOutput(outputId = "box_title_n_lands_tooltip"),
+                options = list(customClass = "left-and-full-width")
               )
             ),
             value = shiny::textOutput(outputId = "box_value_n_lands"),
@@ -209,7 +210,7 @@ shiny::tagList(
                     "Mana Cost {U} or {X}{U}",
                     bsicons::bs_icon("info-circle")
                   ),
-                  "e.g. Mothdust Changeling; Ingenious Prodigy"
+                  shiny::HTML("e.g. Mothdust Changeling;<br>Ingenious Prodigy")
                 )
               ),
               custom_autonumericInput(
@@ -333,7 +334,7 @@ shiny::tagList(
                     "Only Produce {U}",
                     bsicons::bs_icon("info-circle")
                   ),
-                  "e.g. Island; Otawara, the Soaring City"
+                  shiny::HTML("e.g. Island;<br>Otawara, the Soaring City")
                 )
               ),
               custom_autonumericInput(
@@ -343,7 +344,8 @@ shiny::tagList(
                     "Only Produce {B}",
                     bsicons::bs_icon("info-circle")
                   ),
-                  "e.g. Swamp; Takenuma, Abandoned Mire"
+                  shiny::HTML("e.g. Swamp;<br>Takenuma, Abandoned Mire"),
+                  options = list(customClass = "full-width")
                 )
               ),
               custom_autonumericInput(
