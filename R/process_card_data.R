@@ -186,8 +186,10 @@ add_custom_attributes <- function(card_data) {
       enabler_bb = is_enabler_bb(enabler_2, mana_cost),
       enabler_ub = is_enabler_ub(enabler_2, mana_cost),
 
-      enabler_2u = is_enabler_2u(layout, enabler_3, mana_cost),
-      enabler_2b = is_enabler_2b(layout, enabler_3, mana_cost),
+      enabler_1bb = is_enabler_1bb(enabler_3, mana_cost),
+
+      enabler_2u  = is_enabler_2u(layout, enabler_3, mana_cost),
+      enabler_2b  = is_enabler_2b(layout, enabler_3, mana_cost),
 
       # Enabler mana cost (mdfc)
       mdfc_enabler_2u = is_mdfc_enabler_2u(layout, enabler_3, mana_cost),

@@ -98,6 +98,15 @@ is_yuriko_on_T2 <- function(opening_hand){
     # ENABLER 3 ####
     if (hand_metrics$n_enablers_3 >= 1){
       
+      # > 1BB ####
+      if (hand_metrics$n_enablers_1bb >= 1){
+        if (hand_metrics$dark_ritual){
+          if (hand_produces_ub_with_constraint(hand_metrics, "B ON T1")) return(TRUE)
+        }
+        
+        
+      }
+      
       # > 2U ####
       if (hand_metrics$n_enablers_2u >= 1){
         if (hand_metrics$mana_crypt){

@@ -54,6 +54,7 @@ function(input, output, session) {
           group == "enabler_uu" ~ "Mana Cost {U}{U}",
           group == "enabler_bb" ~ "Mana Cost {B}{B}",
           group == "enabler_ub" ~ "Mana Cost {U}{B}",
+          group == "enabler_1bb" ~ "Mana Cost {1}{B}{B}",
           group == "enabler_2u" ~ "Mana Cost {2}{U}",
           group == "enabler_2b" ~ "Mana Cost {2}{B}",
           group == "land_c" ~ "Only Produce {C}",
@@ -86,6 +87,7 @@ function(input, output, session) {
               "Mana Cost {U}{U}",
               "Mana Cost {B}{B}",
               "Mana Cost {U}{B}",
+              "Mana Cost {1}{B}{B}",
               "Mana Cost {2}{U}",
               "Mana Cost {2}{B}",
               "Only Produce {C}",
@@ -223,7 +225,8 @@ function(input, output, session) {
   })
   
   n_enablers_mv_3 <- shiny::reactive({
-    input$enablers_2u +
+    input$enablers_1bb +
+      input$enablers_2u +
       input$enablers_2b 
   })
   
@@ -388,6 +391,7 @@ function(input, output, session) {
         "enabler_1b"      = input$enablers_1b,
         "enabler_1u"      = input$enablers_1u,
         "enabler_cc"      = input$enablers_cc,
+        "enabler_1bb"     = input$enablers_1bb,
         "enabler_2b"      = input$enablers_2b,
         "enabler_2u"      = input$enablers_2u,
         "mdfc_enabler_2b" = input$mdfc_enablers_2b,

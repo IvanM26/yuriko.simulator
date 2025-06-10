@@ -295,7 +295,17 @@ shiny::tagList(
               )
             ),
             bslib::layout_columns(
-              col_widths = c(3, 3, -3, -3),
+              col_widths = c(3, 3, 3, -3),
+              custom_autonumericInput(
+                inputId = "enablers_1bb",
+                label = bslib::tooltip(
+                  trigger = list(
+                    "Mana Cost {1}{B}{B}",
+                    bsicons::bs_icon("info-circle")
+                  ),
+                  "e.g. Nashi, Moon Sage's Scion"
+                )
+              ),
               custom_autonumericInput(
                 inputId = "enablers_2u",
                 label = bslib::tooltip(

@@ -62,6 +62,10 @@ is_enabler_3 <- function(is_enabler, cmc) {
   is_enabler & cmc == 3
 }
 
+is_enabler_1bb <- function(is_enabler_3, mana_cost) {
+  is_enabler_3 & grepl("{1}{B}{B}", mana_cost, fixed = TRUE)
+}
+
 is_enabler_2u <- function(layout, is_enabler_3, mana_cost) {
   layout != "modal_dfc" & is_enabler_3 & grepl("{2}{U}", mana_cost, fixed = TRUE)
 }
