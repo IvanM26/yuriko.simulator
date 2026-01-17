@@ -20,7 +20,7 @@ function(input, output, session) {
   
   output$decklist_stats_table <- shiny::renderTable({
     shiny::req(decklist())
-    
+
     decklist() |> 
       dplyr::left_join(
         dplyr::select(get_group_attributes(), -card_name_scryfall)
@@ -106,9 +106,9 @@ function(input, output, session) {
             )
           )
       ) |> 
-
       dplyr::group_by(`Group Class`, Group) |> 
-      dplyr::summarise( `N Cards` = dplyr::n(), `Cards` = paste0(card_name_scryfall, collapse = ",<br>"))
+      dplyr::summarise(`N Cards` = dplyr::n(), `Cards` = paste0(card_name_scryfall, collapse = ",<br>")) |> 
+      janitor::adorn_totals()
   }, striped = TRUE, sanitize.text.function = identity)
   
   shiny::observeEvent(decklist(), {

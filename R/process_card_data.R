@@ -18,7 +18,7 @@ parse_decklist <- function(decklist_source, source_path) {
     )
     
   } else if (decklist_source == "file") {
-    
+
     # Read cards into a character vector
     cards <- readLines(source_path, warn = FALSE)
     
@@ -151,7 +151,21 @@ add_scryfall_data <- function(card_data, use_httr) {
   }
 
   # Combine all individual card dataframes into one
-  scryfall_data <- dplyr::bind_rows(scryfall_data)
+  scryfall_data <- card_data |> 
+    dplyr::left_join(
+      y = dplyr::bind_rows(scryfall_data),
+      by = "card_name_source"
+    ) |> 
+    # Handle multiple basic lands
+    tidyr::uncount(n_cards, .id = "copy_id") |> 
+    dplyr::mutate(
+      card_name_scryfall = dplyr::if_else(
+        card_name_scryfall %in% c("Island", "Swamp"),
+        stringr::str_c(card_name_scryfall, stringr::str_pad(copy_id, 2, pad = "0")),
+        card_name_scryfall
+      )
+    ) |> 
+    dplyr::select(-copy_id)
 
   # Mark progress as complete
   cli::cli_progress_done()
