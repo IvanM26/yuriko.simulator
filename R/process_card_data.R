@@ -63,7 +63,7 @@ add_scryfall_data <- function(card_data, use_httr) {
     card_name_source <- card_names[card_index]
 
     # Wait between requests to the API
-    Sys.sleep(0.1)
+    Sys.sleep(0.5)
 
     if (use_httr) {
 
