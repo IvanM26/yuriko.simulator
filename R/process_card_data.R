@@ -101,7 +101,7 @@ add_scryfall_data <- function(card_data, use_httr) {
     }
 
     # Process card data based on layout type
-    if (card_info$layout %in% c("split", "flip", "adventure", "normal")) {
+    if (card_info$layout %in% c("split", "flip", "adventure", "normal", "prototype")) {
       card_index_scryfall_data <- tibble::tibble(
         card_name_source = card_name_source,
         layout = card_info$layout,
